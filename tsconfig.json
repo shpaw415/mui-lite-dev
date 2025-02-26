@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "lib": [ "ESNext", "DOM", "DOM.Iterable" ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": [ "./src/*" ],
+      "@static/*": [ "./static/*" ],
+      "@bunext/*": [
+        "./node_modules/@bunpmjs/bunext/*"
+      ],
+      "@svg/*": [
+        "./node_modules/@material-design-icons/svg/*"
+      ]
+    }
+  },
+  "exclude": [ "node_modules" ],
+  "include": [ ".bunext/custom.d.ts", "src" ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "mui-tailwind",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@tailwindcss/cli": "^0.1.2",
+    "@types/bun": "latest",
+    "@types/react": "19.0.07",
+    "@types/react-dom": "19.0.3",
+    "tailwindcss": "^3.4.17",
+    "@bunpmjs/bunext": "0.8.25"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@material-design-icons/svg": "0.14.13",
+    "clsx": "2.1.1",
+    "css-color-converter": "2.0.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "scripts": {
+    "bunext": "bunext",
+    "build": "bun build.ts",
+    "dev": "bunext dev",
+    "db:create": "bunext database:create",
+    "start": "bunext production",
+    "tw": "bunx tailwindcss -i ./static/tailwind-input.css -o ./static/tailwind.css --watch"
+  },
+  "todo": {
+    "color-contrast": "1.0.0"
+  }
+}
