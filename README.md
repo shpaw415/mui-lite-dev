@@ -1,4 +1,6 @@
-# mui-tailwind
+# mui-lite-dev
+
+this is the dev environment for mui-lite.
 
 To install dependencies:
 
