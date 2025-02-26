@@ -1,15 +1,8 @@
-import type { MuiElementType } from "@/common/utils";
+import type { MuiElementType } from "../../common/utils";
 import type { PaperProps } from "../Paper";
 import Paper from "../Paper";
-import { useClassNames, useStyle } from "@/common/theme";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  type JSX,
-} from "react";
+import { useClassNames, useStyle, type SxProps } from "../../common/theme";
+import { createContext, useContext, useRef, useState, type JSX } from "react";
 
 import ExpendIcon from "@svg/filled/expand_more.svg";
 
@@ -18,6 +11,7 @@ export type AccordionProps = {
   defaultExpended?: boolean;
   Summary?: JSX.Element;
   disabled?: boolean;
+  sx?: SxProps;
 } & PaperProps;
 
 const ExpendedContext = createContext<

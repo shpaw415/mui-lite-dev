@@ -8,7 +8,7 @@ import SVG from "@svg/filled/broken_image.svg";
 import Button from "@/mui/Button";
 import type { SupportedLocalesType } from "@/mui/locale";
 import AutoComplete from "@/mui/AutoComplete";
-import { randomString } from "@/common/utils";
+import { randomString } from "../common/utils";
 
 declare global {
   var dry: boolean;
