@@ -19,7 +19,8 @@ globalThis.dry ??= false;
 export default function TestPage() {
   return (
     <Page disabled lang="frFR">
-      <ToolTipTest />
+      {/*<ToolTipTest />*/}
+      <ButtonTest />
     </Page>
   );
 }
@@ -88,14 +89,5 @@ function Page({
 }
 
 function ToolTipTest() {
-  const [value, setValue] = useState("");
-  const [opts, setOpts] = useState<string[]>([]);
-  useEffect(() => {
-    setOpts(
-      Array(20)
-        .fill(null)
-        .map(() => randomString(5))
-    );
-  }, []);
-  return <Button sx={{ width: 200 }}>TEST</Button>;
+  return <Box Element="form"></Box>;
 }
