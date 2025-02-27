@@ -9,6 +9,7 @@ import Button from "@/mui/Button";
 import type { SupportedLocalesType } from "@/mui/locale";
 import AutoComplete from "@/mui/AutoComplete";
 import { randomString } from "../common/utils";
+import { ButtonTest } from "@/test/button.test";
 
 declare global {
   var dry: boolean;
@@ -96,22 +97,5 @@ function ToolTipTest() {
         .map(() => randomString(5))
     );
   }, []);
-  return (
-    <AutoComplete
-      SlotProps={{
-        input: {
-          label: "AutoComplete",
-          variant: "outlined",
-        },
-      }}
-      options={opts}
-      onSelect={(val) => {
-        setValue(val as string);
-      }}
-      onChange={(e) => {
-        setValue(e.currentTarget.value || "");
-      }}
-      value={value}
-    />
-  );
+  return <Button sx={{ width: 200 }}>TEST</Button>;
 }

@@ -866,6 +866,91 @@ div:has( > .MUI_TextField_TextArea) {
   padding: 16.5px 14px;
 }
 
+/* static/components/radio.css */
+.MUI_RadioButton_frame {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: rgb(var(--bg-primary));
+  background-color: #0000;
+  border: 0;
+  border-radius: 50%;
+  justify-content: center;
+  align-items:  center;
+  margin: 0;
+  padding: 9px;
+}
+
+.MUI_RadioButton_frame:hover {
+  background-color: rgba(var(--bg-primary), .08);
+}
+
+.MUI_radio_input {
+  cursor: inherit;
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+}
+
+.MUI_Radio_Inner {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.MUI_Radio_SVG_Frame {
+  user-select: none;
+  display: inline-block;
+  fill: currentColor;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  transition: fill .2s cubic-bezier(.4,0,.2,1);
+  font-size: 1.5rem;
+  transform: scale(1);
+}
+
+.MUI_Radio_SVG_Button {
+  user-select: none;
+  display: inline-block;
+  fill: currentColor;
+  position: absolute;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  transition: transform .15s cubic-bezier(0,0,.2,1);
+  font-size: 1.5rem;
+  left: 0;
+  transform: scale(0);
+}
+
+.MUI_RadioButton_frame:has(.MUI_radio_input:checked) .MUI_Radio_SVG_Button {
+  transform: scale(1);
+}
+
 /* static/components/textfield.css */
 .MUI_TextField_Wrapper {
   display: inline-flex;
@@ -5852,7 +5937,7 @@ img, video {
   transition-timing-function: cubic-bezier(.4,0,.2,1);
 }
 
-/* static/global.css */
+/* static/mui-style.css */
 html, body {
   overflow-x: hidden;
   width: 100dvw;
@@ -5893,20 +5978,24 @@ html, body {
   }
 
   50% {
-    transform: scale(2.5);
+    transform: scale(200);
     opacity: .2;
   }
 
   100% {
-    transform: scale(4);
+    transform: scale(400);
     opacity: 0;
   }
 }
 
 .animate-ripple {
+  position: absolute;
   animation: ripple .8s cubic-bezier(.4, 0, .2, 1) forwards;
   background-color: rgb(var(--color-override, var(--bg-main)));
   cursor: inherit;
+  overflow: visible;
+  max-width: 1px;
+  max-height: 1px;
 }
 
 .MUI_Ripple._primary {
