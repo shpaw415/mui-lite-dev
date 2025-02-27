@@ -123,8 +123,8 @@ function RippleBase({
 
     const { left, top, width, height } = container.getBoundingClientRect();
     const size = Math.max(width, height);
-    const x = e.clientX - left - size / 2 + (offset?.left || 0);
-    const y = e.clientY - top - size / 2 + (offset?.top || 0);
+    const x = e.clientX + 75 - left - size / 2 + (offset?.left || 0);
+    const y = e.clientY + 75 - top - size / 2 + (offset?.top || 0);
 
     setRipples((prevRipples) => [...prevRipples, { x, y }]);
   }, []);
