@@ -1,15 +1,14 @@
 "use client";
-import { DefaultTheme, ThemeProvider, type MuiTheme } from "@/common/theme";
+import { DefaultTheme, ThemeProvider, type MuiTheme } from "../common/theme";
 import { useLoadingEffect } from "@bunext/internal/router/index";
 import Box from "../mui/Box";
 import { useCallback, useEffect, useState } from "react";
 
 import SVG from "@svg/filled/broken_image.svg";
-import Button from "@/mui/Button";
-import type { SupportedLocalesType } from "@/mui/locale";
-import AutoComplete from "@/mui/AutoComplete";
+import Button from "../mui/Button";
+import type { SupportedLocalesType } from "../mui/locale";
+import AutoComplete from "../mui/AutoComplete";
 import { randomString } from "../common/utils";
-import { ButtonTest } from "@/test/button.test";
 
 declare global {
   var dry: boolean;
@@ -19,8 +18,7 @@ globalThis.dry ??= false;
 export default function TestPage() {
   return (
     <Page disabled lang="frFR">
-      {/*<ToolTipTest />*/}
-      <ButtonTest />
+      <ToolTipTest />
     </Page>
   );
 }
