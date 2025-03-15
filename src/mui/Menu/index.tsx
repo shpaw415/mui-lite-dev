@@ -116,7 +116,7 @@ export default function Menu({
   const menuIsVisible = useIsOutOfViewport(menuRef);
   useEffect(() => {
     if (menuIsVisible || !open || placement_override === null) {
-      if (menuIsVisible && placement_override == null)
+      if (menuIsVisible && placement_override === null)
         set_placement_override(undefined);
       return;
     }

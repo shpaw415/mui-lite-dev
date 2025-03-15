@@ -60,8 +60,9 @@ export default function ToolTip({
 }: ToolTipProps) {
   const [, _setTimeout] = useState<Timer>();
   const [active, setActive] = useState(open || false);
-  const [bypassPlacement, setBypassPlacement] =
-    useState<ToolTipProps["placement"]>();
+  const [bypassPlacement, setBypassPlacement] = useState<
+    ToolTipProps["placement"] | null
+  >();
   const [coord, setCoord] = useState<{ left: number; top: number }>({
     left: 0,
     top: 0,
@@ -74,7 +75,12 @@ export default function ToolTip({
   });
 
   useEffect(() => {
-    if (!active || (bypassPlacement == undefined && tooltipIsVisible)) return;
+    if (tooltipIsVisible || !active || bypassPlacement === null) {
+      if (tooltipIsVisible && bypassPlacement === null) {
+        setBypassPlacement(undefined);
+        return;
+      }
+    }
     switch (placement) {
       case "top":
         if (bypassPlacement == undefined && !tooltipIsVisible)
@@ -83,7 +89,7 @@ export default function ToolTip({
           setBypassPlacement("left");
         else if (bypassPlacement == "left" && !tooltipIsVisible)
           setBypassPlacement("right");
-        else setBypassPlacement(undefined);
+        else setBypassPlacement(null);
         break;
       case "bottom":
         if (bypassPlacement == undefined && !tooltipIsVisible)
@@ -92,7 +98,7 @@ export default function ToolTip({
           setBypassPlacement("left");
         else if (bypassPlacement == "left" && !tooltipIsVisible)
           setBypassPlacement("right");
-        else setBypassPlacement(undefined);
+        else setBypassPlacement(null);
         break;
       case "left":
         if (bypassPlacement == undefined && !tooltipIsVisible)
@@ -101,7 +107,7 @@ export default function ToolTip({
           setBypassPlacement("top");
         else if (bypassPlacement == "top" && !tooltipIsVisible)
           setBypassPlacement("bottom");
-        else setBypassPlacement(undefined);
+        else setBypassPlacement(null);
         break;
       case "right":
         if (bypassPlacement == undefined && !tooltipIsVisible)
@@ -110,7 +116,7 @@ export default function ToolTip({
           setBypassPlacement("top");
         else if (bypassPlacement == "top" && !tooltipIsVisible)
           setBypassPlacement("bottom");
-        else setBypassPlacement(undefined);
+        else setBypassPlacement(null);
         break;
     }
   }, [tooltipIsVisible, bypassPlacement]);
