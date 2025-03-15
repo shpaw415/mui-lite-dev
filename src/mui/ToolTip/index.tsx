@@ -117,6 +117,7 @@ export default function ToolTip({
         else setBypassPlacement(null);
         break;
     }
+    coordSetter();
   }, [tooltipIsVisible, bypassPlacement]);
 
   const coordSetter = useCallback(() => {
