@@ -706,7 +706,6 @@ function usePropsOverRide(arg) {
   return Object.assign({}, ...Object.keys(props).filter((e) => !keyofBypass.includes(e)).map((key) => ({ [key]: props[key] })));
 }
 function useIsOutOfViewport(ref, options) {
-  console.log(ref);
   const [isOutOfViewport, setIsOutOfViewport] = import_react.useState(false);
   import_react.useEffect(() => {
     if (!ref?.current)
@@ -1338,9 +1337,8 @@ function Menu({
   }, [open]);
   const menuIsVisible = useIsOutOfViewport(menuRef);
   import_react7.useEffect(() => {
-    console.log({ open, placement_override, menuIsVisible });
     if (menuIsVisible || !open || placement_override === null) {
-      if (menuIsVisible && placement_override == null)
+      if (menuIsVisible && placement_override === null)
         set_placement_override(undefined);
       return;
     }
