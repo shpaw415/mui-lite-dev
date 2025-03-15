@@ -1,32 +1,34 @@
-import "@bunpmjs/bunext/internal/globals";
-import "@bunpmjs/bunext/internal/server_global";
+import "@bunpmjs/bunext/internal/globals.ts";
+import "@bunpmjs/bunext/internal/server_global.ts";
 
-import { builder } from "@bunpmjs/bunext/internal/build";
-import { router } from "@bunpmjs/bunext/internal/router";
+import { builder } from "@bunpmjs/bunext/internal/build.ts";
+import { router } from "@bunpmjs/bunext/internal/router.tsx";
 import { Shell } from "./shell";
 import { renderToString } from "react-dom/server";
-import { ErrorFallback } from "@bunpmjs/bunext/components/fallback";
-import { doWatchBuild } from "@bunpmjs/bunext/internal/build-watch";
-import { setRevalidate } from "@bunpmjs/bunext/internal/server-features";
+import { ErrorFallback } from "@bunpmjs/bunext/components/fallback.tsx";
+import { doWatchBuild } from "@bunpmjs/bunext/internal/build-watch.ts";
+import { setRevalidate } from "@bunpmjs/bunext/internal/server-features.ts";
 
 import _ServerConfig from "../../config/server"; // must be relative
 import Bypassrequest from "../../config/onRequest";
 import type { Server as _Server } from "bun";
-import { BunextRequest } from "@bunpmjs/bunext/internal/bunextRequest";
+import { BunextRequest } from "@bunpmjs/bunext/internal/bunextRequest.ts";
 
 import { cpus, type as OSType } from "node:os";
 import cluster from "node:cluster";
-import { revalidate } from "@bunpmjs/bunext/features/router";
+import { revalidate } from "@bunpmjs/bunext/router";
 import {
   CleanExpiredSession,
   DeleteSessionByID,
   GetSessionByID,
   InitDatabase,
   SetSessionByID,
-} from "@bunpmjs/bunext/internal/session";
-import type { ClusterMessageType } from "@bunpmjs/bunext/internal/types";
-import OnServerStart from "@bunpmjs/bunext/internal/server-start.ts";
-
+} from "@bunpmjs/bunext/internal/session.ts";
+import type { ClusterMessageType } from "@bunpmjs/bunext/internal/types.ts";
+import OnServerStart, {
+  OnServerStartCluster,
+} from "@bunpmjs/bunext/internal/server-start.ts";
+import "@bunpmjs/bunext/internal/caching/fetch.ts";
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -34,6 +36,7 @@ declare global {
     }
   }
 }
+
 globalThis.serverConfig ??= _ServerConfig;
 globalThis.clusterStatus ??= false;
 
@@ -148,7 +151,7 @@ class BunextServer {
         await import("../../config/preload.ts");
       }
       if (isDryRun) {
-        OnServerStart();
+        await OnServerStart();
         if (isDev) {
           doWatchBuild();
           this.serveHotServer(globalThis.serverConfig.Dev.hotServerPort);
@@ -163,8 +166,9 @@ class BunextServer {
       await router.InitServerActions();
     } else if (isMainThread) {
       if (isDryRun) {
+        //@ts-ignore
         await import("../../config/preload.ts");
-        OnServerStart();
+        await OnServerStart();
         if (isDev) {
           doWatchBuild();
           this.serveHotServer(globalThis.serverConfig.Dev.hotServerPort);
@@ -179,6 +183,7 @@ class BunextServer {
     } else if (!isMainThread) {
       if (isDryRun) this.RunServer();
       await router.InitServerActions();
+      await OnServerStartCluster();
     }
 
     if (isDryRun) globalThis.dryRun = false;

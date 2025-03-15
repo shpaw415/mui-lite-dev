@@ -2,6 +2,7 @@ import {
   MuiSSRPortal,
   useClickAwayListener,
   useIsOutOfViewport,
+  useMuiRef,
   usePreventScroll,
 } from "../../common/utils";
 import Paper, { type PaperProps } from "../Paper";
@@ -40,12 +41,13 @@ export default function Menu({
 }: MenuProps) {
   const [prevent, restore] = usePreventScroll();
   const [preventClose, setPreventClose] = useState(false);
-  const menuRef = useClickAwayListener(
+  const menuRef = useMuiRef(props.ref);
+  useClickAwayListener(
     (e) => {
       if (!open || preventClose) return setPreventClose(false);
       onClose?.();
     },
-    { deps: [onClose, open, preventClose] }
+    { deps: [onClose, open, preventClose], ref: menuRef }
   );
   useEffect(() => {
     const ctrl = new AbortController();
@@ -65,8 +67,9 @@ export default function Menu({
   const [coord, setCoord] =
     useState<Partial<DOMRect & { transform: string }>>();
 
-  const [placement_override, set_placement_override] =
-    useState<MenuProps["placement"]>();
+  const [placement_override, set_placement_override] = useState<
+    MenuProps["placement"] | null
+  >();
 
   const CoordSetter = useCallback(() => {
     if (!open || !menuRef.current) return;
@@ -112,7 +115,11 @@ export default function Menu({
 
   const menuIsVisible = useIsOutOfViewport(menuRef);
   useEffect(() => {
-    if (!open || (placement_override == undefined && menuIsVisible)) return;
+    if (menuIsVisible || !open || placement_override === null) {
+      if (menuIsVisible && placement_override == null)
+        set_placement_override(undefined);
+      return;
+    }
     switch (placement) {
       case "top":
         if (placement_override == undefined) set_placement_override("bottom");
@@ -120,7 +127,7 @@ export default function Menu({
           set_placement_override("left");
         else if (placement_override == "left" && !menuIsVisible)
           set_placement_override("right");
-        else set_placement_override(undefined);
+        else set_placement_override(null);
         break;
       case "bottom":
         if (placement_override == undefined) set_placement_override("top");
@@ -128,7 +135,7 @@ export default function Menu({
           set_placement_override("left");
         else if (placement_override == "left" && !menuIsVisible)
           set_placement_override("right");
-        else set_placement_override(undefined);
+        else set_placement_override(null);
         break;
       case "left":
         if (placement_override == undefined) set_placement_override("right");
@@ -136,7 +143,7 @@ export default function Menu({
           set_placement_override("top");
         else if (placement_override == "top" && !menuIsVisible)
           set_placement_override("bottom");
-        else set_placement_override(undefined);
+        else set_placement_override(null);
         break;
       case "right":
         if (placement_override == undefined) set_placement_override("left");
@@ -144,10 +151,11 @@ export default function Menu({
           set_placement_override("top");
         else if (placement_override == "top" && !menuIsVisible)
           set_placement_override("bottom");
-        else set_placement_override(undefined);
+        else set_placement_override(null);
         break;
     }
-  }, [menuIsVisible, open]);
+    CoordSetter();
+  }, [menuIsVisible, placement_override]);
 
   useEffect(() => {
     CoordSetter();
@@ -156,7 +164,7 @@ export default function Menu({
     } else {
       !disablePreventScroll && restore();
     }
-  }, [open, anchorEl?.current]);
+  }, [open, anchorEl]);
 
   useEffect(() => {
     window.addEventListener("resize", CoordSetter);

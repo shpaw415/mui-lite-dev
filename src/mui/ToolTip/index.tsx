@@ -70,11 +70,11 @@ export default function ToolTip({
   const toolTipRef = useMuiRef<HTMLDivElement>(props.ref);
 
   const tooltipIsVisible = useIsOutOfViewport(toolTipRef, {
-    threshold: [0.2, 1],
+    threshold: [0, 1],
   });
 
   useEffect(() => {
-    if (!open || (bypassPlacement == undefined && tooltipIsVisible)) return;
+    if (!active || (bypassPlacement == undefined && tooltipIsVisible)) return;
     switch (placement) {
       case "top":
         if (bypassPlacement == undefined && !tooltipIsVisible)
@@ -113,7 +113,7 @@ export default function ToolTip({
         else setBypassPlacement(undefined);
         break;
     }
-  }, [tooltipIsVisible, active]);
+  }, [tooltipIsVisible, bypassPlacement]);
 
   const coordSetter = useCallback(() => {
     const coord = elRef.current?.getBoundingClientRect();

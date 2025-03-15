@@ -478,7 +478,6 @@ export function useIsOutOfViewport<T extends HTMLElement>(
   options?: { threshold: number | number[] }
 ) {
   const [isOutOfViewport, setIsOutOfViewport] = useState(false);
-
   useEffect(() => {
     if (!ref?.current) return;
 

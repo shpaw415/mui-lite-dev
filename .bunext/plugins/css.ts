@@ -17,7 +17,10 @@ const CssPlugin: BunPlugin = {
         };
 
         return {
-          contents: `const path = "${makePath()}"; export default path;`,
+          contents: `
+          const path = "${makePath()}";
+          export default path;
+          `,
           loader: "js",
         };
       }

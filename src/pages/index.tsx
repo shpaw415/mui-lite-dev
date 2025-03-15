@@ -2,13 +2,14 @@
 import { DefaultTheme, ThemeProvider, type MuiTheme } from "../common/theme";
 import { useLoadingEffect } from "@bunext/internal/router/index";
 import Box from "../mui/Box";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import SVG from "@svg/filled/broken_image.svg";
 import Button from "../mui/Button";
 import type { SupportedLocalesType } from "../mui/locale";
-import AutoComplete from "../mui/AutoComplete";
-import { randomString } from "../common/utils";
+import ToolTip from "../mui/ToolTip";
+import Menu from "../mui/Menu";
+import { List, ListItem } from "../mui/List";
 
 declare global {
   var dry: boolean;
@@ -87,5 +88,17 @@ function Page({
 }
 
 function ToolTipTest() {
-  return <Box Element="form"></Box>;
+  const ref = useRef(null);
+  return (
+    <>
+      <Button ref={ref}>Test</Button>
+      <Menu open anchorEl={ref}>
+        <List>
+          <ListItem>Hello</ListItem>
+          <ListItem>Hello</ListItem>
+          <ListItem>Hello</ListItem>
+        </List>
+      </Menu>
+    </>
+  );
 }

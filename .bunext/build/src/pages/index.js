@@ -1,11 +1,13 @@
 import {
-  __commonJS,
-  __toESM,
   require_jsx_dev_runtime,
   require_react,
   require_react_dom,
   useLoadingEffect
-} from "./../../chunk-2m3fw5r9.js";
+} from "./../../chunk-kp8rnqgv.js";
+import {
+  __commonJS,
+  __toESM
+} from "./../../chunk-bc2nw43f.js";
 
 // node_modules/color-name/index.js
 var require_color_name = __commonJS((exports, module) => {
@@ -569,31 +571,52 @@ function randomString(len, unauthorized = []) {
   }
   return str.slice(0, len);
 }
-function useMediaQuery() {
-  const mediaQuery = import_react.useContext(MediaQueryValuesContext);
-  const [currentSx, setSxType] = import_react.useState(() => {
-    if (typeof window == "undefined")
-      return "md";
-    for (const query of MediaQueryKeys.reverse()) {
-      if (window.innerWidth >= mediaQuery[query])
-        return query;
-    }
-    return "md";
-  });
+function useClickAwayListener(callback, {
+  deps,
+  ...props
+}) {
+  const ref = useMuiRef(props.ref);
   import_react.useEffect(() => {
-    const callback = () => {
-      const w = window.innerWidth;
-      for (const query of MediaQueryKeys.reverse()) {
-        if (w >= mediaQuery[query])
-          return setSxType(query);
+    let currentClick = false;
+    const onElementClick = (ev) => {
+      currentClick = true;
+    };
+    const onDocumentClick = (ev) => {
+      if (currentClick) {
+        currentClick = false;
+      } else {
+        if (!ref.current?.contains(ev.currentTarget))
+          callback(ev);
       }
     };
-    window.addEventListener("resize", callback);
+    ref.current?.addEventListener("click", onElementClick);
+    document.addEventListener("click", onDocumentClick);
     return () => {
-      window.removeEventListener("resize", callback);
+      ref.current?.removeEventListener("click", onElementClick);
+      document.removeEventListener("click", onDocumentClick);
     };
+  }, [...deps || [], ref.current]);
+  return ref;
+}
+var CurrentMediaQueryContext = import_react.createContext("md");
+function GlobalMediaQueryProvider({ children }) {
+  const mediaQuery = import_react.useContext(MediaQueryValuesContext);
+  const [currentSx, setSxType] = import_react.useState("md");
+  const keys = import_react.useMemo(() => Object.keys(mediaQuery).reverse(), []);
+  import_react.useEffect(() => {
+    const ctrl = new AbortController;
+    const callback = () => setSxType((current) => keys.find((query) => window.innerWidth >= mediaQuery[query]) ?? current);
+    window.addEventListener("resize", callback, { signal: ctrl.signal });
+    callback();
+    return () => ctrl.abort();
   }, []);
-  return currentSx;
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(CurrentMediaQueryContext, {
+    value: currentSx,
+    children
+  }, undefined, false, undefined, this);
+}
+function useMediaQuery() {
+  return import_react.useContext(CurrentMediaQueryContext);
 }
 function useRandomID(default_value, len) {
   const [id, setID] = import_react.useState(default_value || "");
@@ -659,13 +682,91 @@ function useColorOverRide({
   }, [colorOverRide, variable, ...deps || []]);
   return overRideColorHex;
 }
+function useValueOverRide({
+  valueOverRide,
+  variable
+}) {
+  return valueOverRide ? { [variable]: `${valueOverRide}` } : undefined;
+}
 var PropsOverRideContext = import_react.createContext({});
+function PropsOverRideProvider({
+  children,
+  props
+}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(PropsOverRideContext, {
+    value: props,
+    children
+  }, undefined, false, undefined, this);
+}
 function usePropsOverRide(arg) {
   const props = import_react.useContext(PropsOverRideContext);
   const keyofBypass = Object.keys(arg[0]).filter((k) => arg[0][k] != null);
   if (Object.keys(props).length == 0)
     return {};
   return Object.assign({}, ...Object.keys(props).filter((e) => !keyofBypass.includes(e)).map((key) => ({ [key]: props[key] })));
+}
+function useIsOutOfViewport(ref, options) {
+  console.log(ref);
+  const [isOutOfViewport, setIsOutOfViewport] = import_react.useState(false);
+  import_react.useEffect(() => {
+    if (!ref?.current)
+      return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsOutOfViewport(entry.intersectionRatio < 1);
+    }, {
+      root: null,
+      threshold: options?.threshold || [0, 1]
+    });
+    const element = ref.current;
+    observer.observe(element);
+    return () => observer.unobserve(element);
+  }, [ref, options?.threshold]);
+  return isOutOfViewport;
+}
+function getHTMLAndBody() {
+  return {
+    html: document?.querySelector("html"),
+    body: document?.querySelector("body")
+  };
+}
+function usePreventScroll() {
+  const [, setCurrentStyles] = import_react.useState({
+    overflow: undefined,
+    padding: undefined
+  });
+  const preventScroll = import_react.useCallback(() => {
+    const { html, body } = getHTMLAndBody();
+    if (!html || !body)
+      return;
+    html.style.overflowY = "hidden";
+  }, []);
+  const restoreScroll = import_react.useCallback(() => {
+    const { html, body } = getHTMLAndBody();
+    if (!html || !body)
+      return;
+    setCurrentStyles((current) => {
+      html.style.overflowY = current.overflow || "";
+      body.style.paddingRight = current.padding || "";
+      return current;
+    });
+  }, []);
+  import_react.useEffect(() => {
+    const { html, body } = getHTMLAndBody();
+    if (!html || !body)
+      return;
+    setCurrentStyles({
+      overflow: html.style.overflowY,
+      padding: body.style.paddingRight
+    });
+    return restoreScroll;
+  }, []);
+  return [preventScroll, restoreScroll];
+}
+function MuiSSRPortal({ children }) {
+  const mainRef = import_react.useContext(ThemeWrapperRefContext);
+  if (typeof document != "undefined" && Boolean(mainRef?.current))
+    return import_react_dom.createPortal(children, mainRef?.current);
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(jsx_dev_runtime.Fragment, {}, undefined, false, undefined, this);
 }
 
 // node_modules/clsx/dist/clsx.mjs
@@ -707,6 +808,7 @@ var MediaQueryKeys = [
   "lg",
   "xl"
 ];
+var MediaQueryToNumbers = Object.assign({}, ...MediaQueryKeys.map((key, i) => ({ [key]: i })));
 function sxToStyle(theme, currentTheme, mediaQuerySize, sxProps) {
   if (!sxProps)
     return {};
@@ -866,24 +968,25 @@ function useStyle(sxProps, apply) {
     styleFromSx: memorizedStyleFromSx
   };
 }
-var MuiVariableUpdater = import_react2.createContext(() => {
-});
+var MuiVariableUpdater = import_react2.createContext(() => {});
 var muiThemeExclude = ["theme", "locale"];
 function ArrToStr2(val) {
-  return [val[0], val[1], val[2]].join(", ");
+  if (!Array.isArray(val) || val.length < 3)
+    return;
+  return [val.at(0), val.at(1), val.at(2)].join(", ");
 }
 function ThemeToCssVar(theme) {
   const currentTheme = theme.theme;
   const { fromString: fromString2 } = require_lib();
   return Object.keys(theme).filter((e) => !muiThemeExclude.includes(e)).map((key) => {
-    let rgbArray = fromString2(theme[key][currentTheme]).toRgbaArray();
-    const currentColor = `--${key}: ${ArrToStr2(rgbArray)};`;
-    rgbArray = fromString2(theme[key].light).toRgbaArray();
-    const light = `--${key}-light: ${ArrToStr2(rgbArray)}`;
-    rgbArray = fromString2(theme[key].dark).toRgbaArray();
-    const dark = `--${key}-dark: ${ArrToStr2(rgbArray)}`;
-    rgbArray = fromString2(theme[key].main).toRgbaArray();
-    const main = `--${key}-main: ${ArrToStr2(rgbArray)}`;
+    let rgbArray = fromString2(theme[key][currentTheme])?.toRgbaArray?.();
+    const currentColor = `--${key}: ${rgbArray && ArrToStr2(rgbArray)};`;
+    rgbArray = fromString2(theme[key].light)?.toRgbaArray?.();
+    const light = `--${key}-light: ${rgbArray && ArrToStr2(rgbArray)}`;
+    rgbArray = fromString2(theme[key].dark)?.toRgbaArray?.();
+    const dark = `--${key}-dark: ${rgbArray && ArrToStr2(rgbArray)}`;
+    rgbArray = fromString2(theme[key].main)?.toRgbaArray?.();
+    const main = `--${key}-main: ${rgbArray && ArrToStr2(rgbArray)}`;
     return `${currentColor};
 ${light};
 ${dark};
@@ -922,7 +1025,7 @@ function useClassNames({
   const calculatedValue = import_react2.useMemo(() => calculated(state), [state, className, variant]);
   return calculatedValue;
 }
-var ValueUpdateContext = import_react2.createContext([]);
+var ValueUpdateContext = import_react2.createContext([() => {}, () => {}]);
 var ThemeWrapperRefContext = import_react2.createContext(null);
 function ThemeProvider({
   children,
@@ -939,38 +1042,65 @@ function ThemeProvider({
   import_react2.useEffect(() => setCurrentTheme(theme), [json]);
   const wrapperRef = import_react2.useRef(props?.ref?.current || null);
   const id = "THEME_" + useRandomID().substring(0, 9);
-  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(MuiColors, {
-    value: currentTheme,
-    children: [
-      /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("style", {
-        type: "text/css",
-        children: [
-          `.${id}`,
-          `{
+  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(GlobalMediaQueryProvider, {
+    children: /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(MuiColors, {
+      value: currentTheme,
+      children: [
+        /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("style", {
+          type: "text/css",
+          children: [
+            `.${id}`,
+            `{
 ${ThemeToCssVar(currentTheme)}
 }`
-        ]
-      }, undefined, true, undefined, this),
-      /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(WrapperElement, {
-        ...props,
-        className: clsx_default(id, `MUI_Theme_Wrapper MUI_${theme.theme}`, className),
-        style: style.styleFromSx,
-        ref: wrapperRef,
-        children: /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(ValueUpdateContext, {
-          value: updateCallbacks,
-          children: /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(ThemeWrapperRefContext, {
-            value: wrapperRef,
-            children
+          ]
+        }, undefined, true, undefined, this),
+        /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(WrapperElement, {
+          ...props,
+          className: clsx_default(id, `MUI_Theme_Wrapper MUI_${theme.theme}`, className),
+          style: style.styleFromSx,
+          ref: wrapperRef,
+          children: /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(ValueUpdateContext, {
+            value: updateCallbacks,
+            children: /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(ThemeWrapperRefContext, {
+              value: wrapperRef,
+              children
+            }, undefined, false, undefined, this)
           }, undefined, false, undefined, this)
         }, undefined, false, undefined, this)
-      }, undefined, false, undefined, this)
-    ]
-  }, undefined, true, undefined, this);
+      ]
+    }, undefined, true, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function useTheme(updateCallback, deps) {
+  const colorContext = import_react2.useContext(MuiColors);
+  const [, setCallback] = import_react2.useContext(ValueUpdateContext);
+  import_react2.useEffect(() => {
+    setCallback((e) => {
+      updateCallback && e.push(updateCallback);
+      return e;
+    });
+    return () => {
+      setCallback((e) => {
+        updateCallback && e.splice(e.indexOf(updateCallback, 1));
+        return e;
+      });
+    };
+  }, deps);
+  const [, set] = import_react2.useState("light");
+  import_react2.useEffect(() => {
+    set(colorContext.theme);
+  }, [colorContext.theme]);
+  return colorContext;
 }
 
 // src/mui/Box/index.tsx
 var import_react3 = __toESM(require_react(), 1);
-function Box({ sx, Element = "div", ...props }) {
+function Box({
+  sx,
+  Element = "div",
+  ...props
+}) {
   const style = useStyle(sx);
   return import_react3.createElement(Element, { ...props, style: style.styleFromSx });
 }
@@ -1086,38 +1216,284 @@ function Button({
 }
 var Button_default = Button;
 
-// src/mui/AutoComplete/index.tsx
-var import_react8 = __toESM(require_react(), 1);
+// src/mui/ToolTip/index.tsx
+var import_react5 = __toESM(require_react(), 1);
 
-// src/mui/InputBase/index.tsx
+// src/mui/Typography/index.tsx
 var jsx_dev_runtime6 = __toESM(require_jsx_dev_runtime(), 1);
 "use client";
 
-// src/mui/TextField/index.tsx
+// src/mui/ToolTip/index.tsx
 var jsx_dev_runtime7 = __toESM(require_jsx_dev_runtime(), 1);
-"use client";
-
-// src/mui/List/index.tsx
-var import_react5 = __toESM(require_react(), 1);
-var jsx_dev_runtime8 = __toESM(require_jsx_dev_runtime(), 1);
 
 // src/mui/Paper/index.tsx
 var import_react6 = __toESM(require_react(), 1);
+function Paper({
+  elevation = 1,
+  sx,
+  className,
+  variant = "elevation",
+  square,
+  element = "div",
+  ...props
+}) {
+  const theme = useTheme();
+  const style = useStyle(sx);
+  const calculatedOverlay = import_react6.useMemo(() => {
+    if (theme.theme == "light" || variant == "outlined")
+      return "none";
+    const calculatedOverlayOpacity = (elevation * 0.165 / 24).toPrecision(3);
+    return `linear-gradient(rgba(var(--bg-surface-light), ${calculatedOverlayOpacity}), rgba(var(--bg-surface-light), ${calculatedOverlayOpacity}))`;
+  }, [elevation, theme.theme]);
+  const overlayVariable = useValueOverRide({
+    variable: "--Paper-overlay",
+    valueOverRide: calculatedOverlay
+  });
+  const root = useClassNames({
+    component_name: "Paper_Root",
+    className,
+    state: [elevation && `elevation${elevation}`, variant, square && "square"]
+  });
+  return import_react6.createElement(element, {
+    className: root.combined,
+    style: {
+      ...overlayVariable,
+      ...style.styleFromSx
+    },
+    ...props
+  });
+}
 
 // src/mui/Menu/index.tsx
 var import_react7 = __toESM(require_react(), 1);
+var jsx_dev_runtime8 = __toESM(require_jsx_dev_runtime(), 1);
+function Menu({
+  open,
+  onClose,
+  anchorEl,
+  disablePreventScroll,
+  placement = "bottom",
+  className,
+  transform,
+  ...props
+}) {
+  const [prevent, restore] = usePreventScroll();
+  const [preventClose, setPreventClose] = import_react7.useState(false);
+  const menuRef = useMuiRef(props.ref);
+  useClickAwayListener((e) => {
+    if (!open || preventClose)
+      return setPreventClose(false);
+    onClose?.();
+  }, { deps: [onClose, open, preventClose], ref: menuRef });
+  import_react7.useEffect(() => {
+    const ctrl = new AbortController;
+    const handle = (e) => {
+      setPreventClose(true);
+    };
+    anchorEl?.current?.addEventListener("click", handle, {
+      signal: ctrl.signal
+    });
+    anchorEl?.current?.addEventListener("focus", handle, {
+      signal: ctrl.signal
+    });
+    return () => ctrl.abort();
+  }, []);
+  const [coord, setCoord] = import_react7.useState();
+  const [placement_override, set_placement_override] = import_react7.useState();
+  const CoordSetter = import_react7.useCallback(() => {
+    if (!open || !menuRef.current)
+      return;
+    const coord2 = anchorEl?.current?.getBoundingClientRect();
+    const menuCoord = getComputedStyle(menuRef.current);
+    switch (placement_override || placement) {
+      case "bottom":
+        setCoord({
+          top: (coord2?.top || 0) + (coord2?.height || 0),
+          left: coord2?.left || 0,
+          transform: transform?.bottom
+        });
+        break;
+      case "top":
+        setCoord({
+          top: (coord2?.top || 0) - (coord2?.height || 0) - parseInt(menuCoord.height),
+          left: coord2?.left || 0,
+          transform: transform?.top
+        });
+        break;
+      case "left":
+        setCoord({
+          top: coord2?.top || 0,
+          left: (coord2?.left || 0) - parseInt(menuCoord.width),
+          transform: transform?.left
+        });
+        break;
+      case "right":
+        setCoord({
+          top: coord2?.top || 0,
+          left: (coord2?.left || 0) + parseInt(menuCoord.width) + (coord2?.width || 0),
+          transform: transform?.right
+        });
+        break;
+    }
+  }, [open]);
+  const menuIsVisible = useIsOutOfViewport(menuRef);
+  import_react7.useEffect(() => {
+    console.log({ open, placement_override, menuIsVisible });
+    if (menuIsVisible || !open || placement_override === null) {
+      if (menuIsVisible && placement_override == null)
+        set_placement_override(undefined);
+      return;
+    }
+    switch (placement) {
+      case "top":
+        if (placement_override == undefined)
+          set_placement_override("bottom");
+        else if (placement_override == "bottom" && !menuIsVisible)
+          set_placement_override("left");
+        else if (placement_override == "left" && !menuIsVisible)
+          set_placement_override("right");
+        else
+          set_placement_override(null);
+        break;
+      case "bottom":
+        if (placement_override == undefined)
+          set_placement_override("top");
+        else if (placement_override == "top" && !menuIsVisible)
+          set_placement_override("left");
+        else if (placement_override == "left" && !menuIsVisible)
+          set_placement_override("right");
+        else
+          set_placement_override(null);
+        break;
+      case "left":
+        if (placement_override == undefined)
+          set_placement_override("right");
+        else if (placement_override == "right" && !menuIsVisible)
+          set_placement_override("top");
+        else if (placement_override == "top" && !menuIsVisible)
+          set_placement_override("bottom");
+        else
+          set_placement_override(null);
+        break;
+      case "right":
+        if (placement_override == undefined)
+          set_placement_override("left");
+        else if (placement_override == "left" && !menuIsVisible)
+          set_placement_override("top");
+        else if (placement_override == "top" && !menuIsVisible)
+          set_placement_override("bottom");
+        else
+          set_placement_override(null);
+        break;
+    }
+    CoordSetter();
+  }, [menuIsVisible, placement_override]);
+  import_react7.useEffect(() => {
+    CoordSetter();
+    if (open) {
+      !disablePreventScroll && setTimeout(() => prevent(), 100);
+    } else {
+      !disablePreventScroll && restore();
+    }
+  }, [open, anchorEl]);
+  import_react7.useEffect(() => {
+    window.addEventListener("resize", CoordSetter);
+    return () => {
+      window.removeEventListener("resize", CoordSetter);
+    };
+  }, [open]);
+  const menu = useClassNames({
+    component_name: "Menu_Root",
+    state: [open && "open"],
+    className
+  });
+  return /* @__PURE__ */ jsx_dev_runtime8.jsxDEV(MuiSSRPortal, {
+    children: /* @__PURE__ */ jsx_dev_runtime8.jsxDEV(Paper, {
+      elevation: 8,
+      ...props,
+      ref: menuRef,
+      className: menu.combined,
+      sx: { ...coord, ...props.sx }
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+
+// src/mui/List/index.tsx
+var import_react8 = __toESM(require_react(), 1);
 var jsx_dev_runtime9 = __toESM(require_jsx_dev_runtime(), 1);
-
-// src/mui/AutoComplete/index.tsx
-var jsx_dev_runtime10 = __toESM(require_jsx_dev_runtime(), 1);
-
-// src/test/utils.tsx
-var jsx_dev_runtime11 = __toESM(require_jsx_dev_runtime(), 1);
-"use client";
-
-// src/test/button.test.tsx
-var jsx_dev_runtime12 = __toESM(require_jsx_dev_runtime(), 1);
-"use client";
+function List({
+  sx,
+  subheader,
+  children,
+  disablePadding,
+  component = "ul",
+  dense,
+  className,
+  ...props
+}) {
+  const style = useStyle(sx);
+  const root = useClassNames({
+    component_name: "List_Root",
+    className,
+    state: [dense && "dense", disablePadding && "disabled-padding"]
+  });
+  return import_react8.createElement(component, {
+    ...props,
+    className: root.combined,
+    style: style.styleFromSx,
+    children: /* @__PURE__ */ jsx_dev_runtime9.jsxDEV(jsx_dev_runtime9.Fragment, {
+      children: [
+        subheader && /* @__PURE__ */ jsx_dev_runtime9.jsxDEV("div", {
+          className: "MUI_ListItem_SubHeader_Root",
+          children: subheader
+        }, undefined, false, undefined, this),
+        children
+      ]
+    }, undefined, true, undefined, this)
+  });
+}
+function ListItem({
+  sx,
+  component = "li",
+  secondaryAction,
+  disableGutters,
+  disablePadding,
+  className,
+  alignItems = "center",
+  dense,
+  children,
+  ...props
+}) {
+  const style = useStyle(sx);
+  const root = useClassNames({
+    component_name: "ListItem_Root",
+    className,
+    state: [
+      disablePadding && "disabled-padding",
+      dense && "dense",
+      disableGutters && "disabled-gutters"
+    ]
+  });
+  return import_react8.createElement(component, {
+    ...props,
+    style: style.styleFromSx,
+    className: root.combined,
+    children: /* @__PURE__ */ jsx_dev_runtime9.jsxDEV(jsx_dev_runtime9.Fragment, {
+      children: [
+        children,
+        secondaryAction && /* @__PURE__ */ jsx_dev_runtime9.jsxDEV("div", {
+          className: "MUI_ListItem_SecondaryAction",
+          children: /* @__PURE__ */ jsx_dev_runtime9.jsxDEV(PropsOverRideProvider, {
+            props: {
+              colorOverRide: style.theme.theme == "light" ? "black" : "white"
+            },
+            children: secondaryAction
+          }, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      ]
+    }, undefined, true, undefined, this)
+  });
+}
 
 // client:/home/shpaw415/Documents/bun_module/mui-tailwind/src/pages/index.tsx
 "use client";
@@ -1192,15 +1568,32 @@ function Page({
   }, undefined, true, undefined, this);
 }
 function ToolTipTest() {
-  const [value, setValue] = import_react9.useState("");
-  const [opts, setOpts] = import_react9.useState([]);
-  import_react9.useEffect(() => {
-    setOpts(Array(20).fill(null).map(() => randomString(5)));
-  }, []);
-  return jsxDEV_7x81h0kn(Button_default, {
-    sx: { width: 200 },
-    children: "TEST"
-  }, undefined, false, undefined, this);
+  const ref = import_react9.useRef(null);
+  return jsxDEV_7x81h0kn(Fragment_8vg9x3sq, {
+    children: [
+      jsxDEV_7x81h0kn(Button_default, {
+        ref,
+        children: "Test"
+      }, undefined, false, undefined, this),
+      jsxDEV_7x81h0kn(Menu, {
+        open: true,
+        anchorEl: ref,
+        children: jsxDEV_7x81h0kn(List, {
+          children: [
+            jsxDEV_7x81h0kn(ListItem, {
+              children: "Hello"
+            }, undefined, false, undefined, this),
+            jsxDEV_7x81h0kn(ListItem, {
+              children: "Hello"
+            }, undefined, false, undefined, this),
+            jsxDEV_7x81h0kn(ListItem, {
+              children: "Hello"
+            }, undefined, false, undefined, this)
+          ]
+        }, undefined, true, undefined, this)
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
 }
 export {
   TestPage as default

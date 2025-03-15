@@ -1,17 +1,23 @@
 import {
-  HeadElement
-} from "./../../chunk-fq8x7ham.js";
-import {
   NextJsLayoutStacker,
   ReloadContext,
+  RequestContext,
   RouterHost,
-  __commonJS,
-  __toESM,
+  SessionProvider,
+  generateRandomString,
   getRouteMatcher,
+  match,
+  normalize,
   require_jsx_dev_runtime,
   require_react,
-  require_react_dom
-} from "./../../chunk-2m3fw5r9.js";
+  require_react_dom,
+  useReloadEffect
+} from "./../../chunk-kp8rnqgv.js";
+import {
+  __commonJS,
+  __require,
+  __toESM
+} from "./../../chunk-bc2nw43f.js";
 
 // node_modules/scheduler/cjs/scheduler.development.js
 var require_scheduler_development = __commonJS((exports) => {
@@ -206,10 +212,8 @@ var require_scheduler_development = __commonJS((exports) => {
         currentPriorityLevel = previousPriorityLevel;
       }
     };
-    exports.unstable_pauseExecution = function() {
-    };
-    exports.unstable_requestPaint = function() {
-    };
+    exports.unstable_pauseExecution = function() {};
+    exports.unstable_requestPaint = function() {};
     exports.unstable_runWithPriority = function(priorityLevel, eventHandler) {
       switch (priorityLevel) {
         case 1:
@@ -280,8 +284,7 @@ var require_scheduler_development = __commonJS((exports) => {
 // node_modules/scheduler/index.js
 var require_scheduler = __commonJS((exports, module) => {
   var scheduler_development = __toESM(require_scheduler_development(), 1);
-  if (false) {
-  } else {
+  if (false) {} else {
     module.exports = scheduler_development;
   }
 });
@@ -343,10 +346,8 @@ var require_react_dom_client_development = __commonJS((exports) => {
     function warnInvalidContextAccess() {
       console.error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
     }
-    function noop$2() {
-    }
-    function warnForMissingKey() {
-    }
+    function noop$2() {}
+    function warnForMissingKey() {}
     function setToSortedString(set) {
       var array = [];
       set.forEach(function(value) {
@@ -417,8 +418,7 @@ var require_react_dom_client_development = __commonJS((exports) => {
             type = type._init;
             try {
               return getComponentNameFromType(type(innerType));
-            } catch (x) {
-            }
+            } catch (x) {}
         }
       return null;
     }
@@ -487,8 +487,7 @@ var require_react_dom_client_development = __commonJS((exports) => {
       }
       return null;
     }
-    function disabledLog() {
-    }
+    function disabledLog() {}
     function disableLogs() {
       if (disabledDepth === 0) {
         prevLog = console.log;
@@ -537,8 +536,8 @@ var require_react_dom_client_development = __commonJS((exports) => {
         try {
           throw Error();
         } catch (x) {
-          var match = x.stack.trim().match(/\n( *(at )?)/);
-          prefix = match && match[1] || "";
+          var match2 = x.stack.trim().match(/\n( *(at )?)/);
+          prefix = match2 && match2[1] || "";
           suffix = -1 < x.stack.indexOf(`
     at`) ? " (<anonymous>)" : -1 < x.stack.indexOf("@") ? "@unknown:0:0" : "";
         }
@@ -592,8 +591,7 @@ var require_react_dom_client_development = __commonJS((exports) => {
                 } catch (x$1) {
                   control = x$1;
                 }
-                (Fake = fn()) && typeof Fake.catch === "function" && Fake.catch(function() {
-                });
+                (Fake = fn()) && typeof Fake.catch === "function" && Fake.catch(function() {});
               }
             } catch (sample) {
               if (sample && control && typeof sample.stack === "string")
@@ -2413,8 +2411,7 @@ This will cause a hydration error.%s`, parentTag, warnKey);
           var event = this.nativeEvent;
           event && (event.stopPropagation ? event.stopPropagation() : typeof event.cancelBubble !== "unknown" && (event.cancelBubble = true), this.isPropagationStopped = functionThatReturnsTrue);
         },
-        persist: function() {
-        },
+        persist: function() {},
         isPersistent: functionThatReturnsTrue
       });
       return SyntheticBaseEvent;
@@ -3067,8 +3064,7 @@ It can also happen if the client has a browser extension installed which messes 
       thenable = thenable.status;
       return thenable === "fulfilled" || thenable === "rejected";
     }
-    function noop$3() {
-    }
+    function noop$3() {}
     function trackUsedThenable(thenableState2, thenable, index) {
       ReactSharedInternals.actQueue !== null && (ReactSharedInternals.didUsePromise = true);
       var trackedThenables = thenableState2.thenables;
@@ -4526,8 +4522,7 @@ Incoming: %s`, currentHookNameInDev, "[" + prevDeps.join(", ") + "]", "[" + next
         } else
           dispatchSetStateInternal(fiber, queue, finishedState, requestUpdateLane(fiber));
       } catch (error) {
-        dispatchSetStateInternal(fiber, queue, { then: function() {
-        }, status: "rejected", reason: error }, requestUpdateLane(fiber));
+        dispatchSetStateInternal(fiber, queue, { then: function() {}, status: "rejected", reason: error }, requestUpdateLane(fiber));
       } finally {
         ReactDOMSharedInternals.p = previousPriority, ReactSharedInternals.T = prevTransition, prevTransition === null && currentTransition._updatedFibers && (fiber = currentTransition._updatedFibers.size, currentTransition._updatedFibers.clear(), 10 < fiber && console.warn("Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."));
       }
@@ -4681,8 +4676,7 @@ Incoming: %s`, currentHookNameInDev, "[" + prevDeps.join(", ") + "]", "[" + next
             update.eagerState = eagerState;
             if (objectIs(eagerState, currentState))
               return enqueueUpdate$1(fiber, queue, update, 0), workInProgressRoot === null && finishQueueingConcurrentUpdates(), false;
-          } catch (error) {
-          } finally {
+          } catch (error) {} finally {
             ReactSharedInternals.H = prevDispatcher;
           }
         }
@@ -9532,8 +9526,7 @@ This ensures that you're testing the behavior the user would see in the browser.
       clientText = normalizeMarkupForTextOrAttribute(clientText);
       return normalizeMarkupForTextOrAttribute(serverText) === clientText ? true : false;
     }
-    function noop$1() {
-    }
+    function noop$1() {}
     function setProp(domElement, tag, key, value, props, prevValue) {
       switch (key) {
         case "children":
@@ -11208,8 +11201,7 @@ This ensures that you're testing the behavior the user would see in the browser.
     function preloadResource(resource) {
       return resource.type === "stylesheet" && (resource.state.loading & Settled) === NotLoaded ? false : true;
     }
-    function noop() {
-    }
+    function noop() {}
     function suspendResource(hoistableRoot, resource, props) {
       if (suspendedState === null)
         throw Error("Internal React Error: suspendedState null when it was expected to exists. Please report this as a React bug.");
@@ -12777,16 +12769,11 @@ Check the render method of %s.`, getComponentNameFromFiber(current) || "Unknown"
     var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_RUN = getVendorPrefixedEventName("transitionrun"), TRANSITION_START = getVendorPrefixedEventName("transitionstart"), TRANSITION_CANCEL = getVendorPrefixedEventName("transitioncancel"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = new Map, simpleEventPluginEvents = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll scrollEnd toggle touchMove waiting wheel".split(" "), OffscreenVisible = 1, OffscreenDetached = 2, OffscreenPassiveEffectsConnected = 4, concurrentQueues = [], concurrentQueuesIndex = 0, concurrentlyUpdatedLanes = 0, emptyContextObject = {};
     Object.freeze(emptyContextObject);
     var resolveFamily = null, failedBoundaries = null, NoMode = 0, ConcurrentMode = 1, ProfileMode = 2, StrictLegacyMode = 8, StrictEffectsMode = 16, NoStrictPassiveEffectsMode = 64, now = Scheduler.unstable_now, renderStartTime = -0, commitStartTime = -0, profilerStartTime = -1.1, profilerEffectDuration = -0, currentUpdateIsNested = false, nestedUpdateScheduled = false, ReactStrictModeWarnings = {
-      recordUnsafeLifecycleWarnings: function() {
-      },
-      flushPendingUnsafeLifecycleWarnings: function() {
-      },
-      recordLegacyContextWarning: function() {
-      },
-      flushLegacyContextWarning: function() {
-      },
-      discardPendingWarnings: function() {
-      }
+      recordUnsafeLifecycleWarnings: function() {},
+      flushPendingUnsafeLifecycleWarnings: function() {},
+      recordLegacyContextWarning: function() {},
+      flushLegacyContextWarning: function() {},
+      discardPendingWarnings: function() {}
     }, pendingComponentWillMountWarnings = [], pendingUNSAFE_ComponentWillMountWarnings = [], pendingComponentWillReceivePropsWarnings = [], pendingUNSAFE_ComponentWillReceivePropsWarnings = [], pendingComponentWillUpdateWarnings = [], pendingUNSAFE_ComponentWillUpdateWarnings = [], didWarnAboutUnsafeLifecycles = new Set;
     ReactStrictModeWarnings.recordUnsafeLifecycleWarnings = function(fiber, instance) {
       didWarnAboutUnsafeLifecycles.has(fiber.type) || (typeof instance.componentWillMount === "function" && instance.componentWillMount.__suppressDeprecationWarning !== true && pendingComponentWillMountWarnings.push(fiber), fiber.mode & StrictLegacyMode && typeof instance.UNSAFE_componentWillMount === "function" && pendingUNSAFE_ComponentWillMountWarnings.push(fiber), typeof instance.componentWillReceiveProps === "function" && instance.componentWillReceiveProps.__suppressDeprecationWarning !== true && pendingComponentWillReceivePropsWarnings.push(fiber), fiber.mode & StrictLegacyMode && typeof instance.UNSAFE_componentWillReceiveProps === "function" && pendingUNSAFE_ComponentWillReceivePropsWarnings.push(fiber), typeof instance.componentWillUpdate === "function" && instance.componentWillUpdate.__suppressDeprecationWarning !== true && pendingComponentWillUpdateWarnings.push(fiber), fiber.mode & StrictLegacyMode && typeof instance.UNSAFE_componentWillUpdate === "function" && pendingUNSAFE_ComponentWillUpdateWarnings.push(fiber));
@@ -14461,8 +14448,7 @@ You might need to use a local HTTP server (instead of file://): https://react.de
 // node_modules/react-dom/client.js
 var require_client = __commonJS((exports, module) => {
   var react_dom_client_development = __toESM(require_react_dom_client_development(), 1);
-  if (false) {
-  } else {
+  if (false) {} else {
     module.exports = react_dom_client_development;
   }
 });
@@ -14472,15 +14458,14 @@ var import_client = __toESM(require_client(), 1);
 var jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
 "use client";
 var globalX = globalThis;
-var match = typeof window == "undefined" ? () => {
-} : getRouteMatcher(globalX.__ROUTES__);
+var match2 = typeof window == "undefined" ? () => {} : getRouteMatcher(globalX.__ROUTES__);
 async function hydrate(Shell, {
   onRecoverableError = () => {
     return;
   },
   ...options
 } = {}) {
-  const matched = match(globalX.__INITIAL_ROUTE__.split("?")[0]);
+  const matched = match2(globalX.__INITIAL_ROUTE__.split("?")[0]);
   const Initial = await import(matched.value);
   const JsxToDisplay = await NextJsLayoutStacker({
     page: Initial.default({
@@ -14529,8 +14514,7 @@ function Dev({ children }) {
       ws.addEventListener("close", () => resetWs(setWs));
       ws.addEventListener("error", () => resetWs(setWs));
       return ws;
-    } catch {
-    }
+    } catch {}
   }, []);
   const wsSetInterval = import_react.useCallback((setter) => {
     setInterval(() => {
@@ -14549,23 +14533,210 @@ function Dev({ children }) {
   }, []);
   return children;
 }
-// .bunext/react-ssr/shell.tsx
+// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/head.tsx
+var import_react3 = __toESM(require_react(), 1);
+
+// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/client/request.ts
+var import_react2 = __toESM(require_react(), 1);
+// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/head.tsx
 var jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
+"use client";
+
+class HeadDataClass {
+  head = {};
+  currentPath;
+  setHead({ data, path }) {
+    this.head[path] = data;
+  }
+  _setCurrentPath(path) {
+    this.currentPath = path.split("pages").slice(1).join("pages").replace("/index.tsx", "");
+    if (this.currentPath.length == 0)
+      this.currentPath = "/";
+  }
+}
+var Head = new HeadDataClass;
+function deepMerge(obj, assign) {
+  const copy = structuredClone(obj || {});
+  for (const key of Object.keys(assign || {})) {
+    switch (key) {
+      case "author":
+      case "publisher":
+      case "title":
+        copy[key] = assign[key];
+        break;
+      case "link":
+      case "meta":
+        if (copy[key])
+          copy[key].push(...assign[key]);
+        else
+          copy[key] = assign[key];
+        break;
+    }
+  }
+  return copy;
+}
+function setParamOnDevMode() {
+  if (true)
+    return `?${generateRandomString(5)}`;
+  else
+    ;
+}
+function GlobalDataFromServerSide() {
+  return {
+    __CSS_PATHS__: router2.cssPathExists,
+    __LAYOUT_ROUTE__: router2.layoutPaths,
+    __PAGES_DIR__: router2.pageDir
+  };
+}
+function GetCssPaths(match3, options) {
+  if (!match3)
+    return [];
+  const globalX2 = typeof window != "undefined" ? globalThis : GlobalDataFromServerSide();
+  let currentPath = "/";
+  const cssPaths = [];
+  const formatedPath = match3.path == "/" ? [""] : match3.path.split("/");
+  for (const p of formatedPath) {
+    currentPath += p.length > 0 ? p : "";
+    if (globalX2.__LAYOUT_ROUTE__.includes(currentPath)) {
+      const normailizePath = normalize(`/${globalX2.__PAGES_DIR__}${currentPath}/layout.css`);
+      if (globalX2.__CSS_PATHS__.includes(normailizePath))
+        cssPaths.push(normailizePath + (options?.onlyFilePath ? "" : setParamOnDevMode()));
+    }
+    if (p.length > 0)
+      currentPath += "/";
+  }
+  const cssPath = match3.value.split(".");
+  cssPath.pop();
+  if (globalX2.__CSS_PATHS__.includes(normalize(`${cssPath.join(".")}.css`))) {
+    cssPaths.push(normalize(`${cssPath.join(".")}.css${options?.onlyFilePath ? "" : setParamOnDevMode()}`));
+  }
+  return cssPaths;
+}
+var HeadContext = import_react3.createContext([() => {}, "/"]);
+function HeadProvider({
+  currentPath,
+  children
+}) {
+  const globalX2 = globalThis;
+  const [reload, setReload] = import_react3.useState(false);
+  const request = import_react3.useContext(RequestContext);
+  useReloadEffect(() => {
+    setReload(true);
+  }, []);
+  import_react3.useEffect(() => {
+    setReload(false);
+  }, [reload]);
+  currentPath = currentPath.split("?")[0];
+  const path = import_react3.useMemo(() => {
+    if (typeof window != "undefined") {
+      return match(currentPath)?.path;
+    } else {
+      return router2.server?.match(currentPath)?.name;
+    }
+  }, [currentPath]);
+  const [cssPaths, setCssPaths] = import_react3.useState([]);
+  import_react3.useEffect(() => {
+    setCssPaths(GetCssPaths(match(currentPath)));
+  }, [currentPath]);
+  if (!path)
+    throw new Error(currentPath + " not found");
+  const PreloadedHeadData = import_react3.useMemo(() => typeof window != "undefined" ? deepMerge(globalX2.__HEAD_DATA__["*"] || {}, globalX2.__HEAD_DATA__[path]) : deepMerge(Head.head["*"] || {}, {
+    ...Head.head[path],
+    ...request?.headData?.[path]
+  }), [path]);
+  const [data, setData] = import_react3.useState({});
+  import_react3.useMemo(() => setData({}), [path]);
+  const dataSetter = import_react3.useCallback((data2) => {
+    setData(typeof window != "undefined" ? deepMerge(globalX2.__HEAD_DATA__["*"] || {}, {
+      ...globalX2.__HEAD_DATA__[path],
+      ...data2
+    }) : deepMerge(Head.head["*"] || {}, { ...Head.head[path], ...data2 }));
+  }, [path]);
+  const providerData = import_react3.useMemo(() => [dataSetter, path], [dataSetter, path]);
+  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(HeadContext.Provider, {
+    value: providerData,
+    children: [
+      !reload && /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(HeadElement, {
+        path,
+        data: {
+          ...PreloadedHeadData,
+          ...data,
+          link: [...data?.link ?? []]
+        },
+        style: cssPaths.map((link) => ({
+          rel: "stylesheet",
+          href: link
+        }))
+      }, undefined, false, undefined, this),
+      children
+    ]
+  }, undefined, true, undefined, this);
+}
+function HeadElement({
+  data,
+  path,
+  style
+}) {
+  const getPaths = () => GetCssPaths({
+    value: normalize(`/${router2.pageDir}/${path}.js`),
+    params: {},
+    path
+  }, {
+    onlyFilePath: true
+  }).map((path2) => `${router2.buildDir}${path2}`);
+  const getStringData = (filePath) => {
+    const buffer = (() => ({})).readFileSync(filePath);
+    return buffer.toString("utf-8");
+  };
+  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("head", {
+    suppressHydrationWarning: true,
+    children: [
+      data?.title && /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("title", {
+        children: data.title
+      }, undefined, false, undefined, this),
+      data?.author && /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("meta", {
+        name: "author",
+        content: data.author
+      }, undefined, false, undefined, this),
+      data?.publisher && /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("meta", {
+        name: "publisher",
+        content: data.publisher
+      }, undefined, false, undefined, this),
+      data?.meta?.map((e, index) => /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("meta", {
+        ...e
+      }, index, false, undefined, this)),
+      data?.link?.map((e, index) => /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("link", {
+        ...e
+      }, index, false, undefined, this)),
+      typeof window == "undefined" && getPaths().map((path2, i) => /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("style", {
+        dangerouslySetInnerHTML: {
+          __html: getStringData(path2)
+        }
+      }, i, false, undefined, this)),
+      typeof window != "undefined" && style?.map((props, i) => /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("link", {
+        rel: "stylesheet",
+        ...props
+      }, i, false, undefined, this))
+    ]
+  }, undefined, true, undefined, this);
+}
+// .bunext/react-ssr/shell.tsx
+var jsx_dev_runtime3 = __toESM(require_jsx_dev_runtime(), 1);
 var Shell = ({
   children,
   route
 }) => {
-  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("html", {
-    children: /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(Dev, {
-      children: [
-        /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(HeadElement, {
-          currentPath: route
-        }, undefined, false, undefined, this),
-        /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("body", {
-          children
+  return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV(SessionProvider, {
+    children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("html", {
+      children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV(HeadProvider, {
+        currentPath: route,
+        children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV(Dev, {
+          children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("body", {
+            children
+          }, undefined, false, undefined, this)
         }, undefined, false, undefined, this)
-      ]
-    }, undefined, true, undefined, this)
+      }, undefined, false, undefined, this)
+    }, undefined, false, undefined, this)
   }, undefined, false, undefined, this);
 };
 
