@@ -4604,8 +4604,15 @@ button.MUI_FAB_Root._large:not(._extended) {
 /* static/components/tooltip.css */
 :root {
   --tooltip-background-color: 97, 97, 97;
-  --tooltip-margin: 15px;
+  --tooltip-offset-x: 0px;
+  --tooltip-offset-y: 0px;
   --tooltip-arrow-size: 6px;
+}
+
+.MUI_Tooltip-Container {
+  all: inherit;
+  position: relative;
+  display: inline-block;
 }
 
 .MUI_Tooltip-Tip {
@@ -4623,7 +4630,6 @@ button.MUI_FAB_Root._large:not(._extended) {
   transition: opacity .2s cubic-bezier(.4,0,.2,1), transform .133s cubic-bezier(.4,0,.2,1);
   font-size: 14px;
   line-height: 1;
-  transform: translateX(-100%);
 }
 
 .MUI_Tooltip-Tip._open {
@@ -4652,7 +4658,9 @@ button.MUI_FAB_Root._large:not(._extended) {
 }
 
 .MUI_Tooltip-Tip._top {
-  transform: translateX(calc(var(--element-width) / 2 - 40%)) translateY(calc(0% - var(--element-height)));
+  transform: translateX(calc(-50% + var(--tooltip-offset-x))) translateY(var(--tooltip-offset-y));
+  bottom: 100%;
+  left: 50%;
 }
 
 .MUI_Tooltip-Tip._top:before {
@@ -4661,7 +4669,9 @@ button.MUI_FAB_Root._large:not(._extended) {
 }
 
 .MUI_Tooltip-Tip._right {
-  transform: translateX(calc(var(--element-width)  + var(--tooltip-margin))) translateY(calc(var(--element-height) / 2 - 50%));
+  transform: translateY(calc(-50% + var(--tooltip-offset-y))) translateX(var(--tooltip-offset-x));
+  top: 50%;
+  left: 100%;
 }
 
 .MUI_Tooltip-Tip._right:before {
@@ -4672,7 +4682,9 @@ button.MUI_FAB_Root._large:not(._extended) {
 }
 
 .MUI_Tooltip-Tip._bottom {
-  transform: translateX(calc(var(--element-width) / 2 - 50%)) translateY(calc(var(--element-height)  + var(--tooltip-margin)));
+  transform: translateX(calc(-50% + var(--tooltip-offset-x))) translateY(var(--tooltip-offset-y));
+  top: 100%;
+  left: 50%;
 }
 
 .MUI_Tooltip-Tip._bottom:before {
@@ -4681,7 +4693,9 @@ button.MUI_FAB_Root._large:not(._extended) {
 }
 
 .MUI_Tooltip-Tip._left {
-  transform: translateX(calc(-100% - var(--tooltip-margin))) translateY(calc(var(--element-height) / 2 - 50%));
+  transform: translateY(calc(-50% + var(--tooltip-offset-y))) translateX(var(--tooltip-offset-x));
+  top: 50%;
+  right: 100%;
 }
 
 .MUI_Tooltip-Tip._left:before {
@@ -5876,6 +5890,10 @@ img, video {
 
 .block {
   display: block;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .inline {

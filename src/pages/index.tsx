@@ -10,6 +10,7 @@ import type { SupportedLocalesType } from "../mui/locale";
 import ToolTip from "../mui/ToolTip";
 import Menu from "../mui/Menu";
 import { List, ListItem } from "../mui/List";
+import TextField from "../mui/TextField";
 
 declare global {
   var dry: boolean;
@@ -88,17 +89,19 @@ function Page({
 }
 
 function ToolTipTest() {
-  const ref = useRef(null);
   return (
-    <>
-      <Button ref={ref}>Test</Button>
-      <Menu open anchorEl={ref}>
-        <List>
-          <ListItem>Hello</ListItem>
-          <ListItem>Hello</ListItem>
-          <ListItem>Hello</ListItem>
-        </List>
-      </Menu>
-    </>
+    <Box
+      sx={{
+        width: 700,
+      }}
+    >
+      <ToolTip title="some title" open arrow placement="top">
+        <TextField
+          sx={{
+            width: "100%",
+          }}
+        />
+      </ToolTip>
+    </Box>
   );
 }

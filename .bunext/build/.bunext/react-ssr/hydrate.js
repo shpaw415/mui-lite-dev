@@ -12,7 +12,7 @@ import {
   require_react,
   require_react_dom,
   useReloadEffect
-} from "./../../chunk-kp8rnqgv.js";
+} from "./../../chunk-q2ev17za.js";
 import {
   __commonJS,
   __require,
@@ -14453,7 +14453,7 @@ var require_client = __commonJS((exports, module) => {
   }
 });
 
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/internal/hydrate.tsx
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/hydrate.tsx
 var import_client = __toESM(require_client(), 1);
 var jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
 "use client";
@@ -14485,7 +14485,7 @@ async function hydrate(Shell, {
     }, undefined, false, undefined, this)
   }, undefined, false, undefined, this), { onRecoverableError });
 }
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/dev/dev.tsx
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/dev/dev.tsx
 var import_react = __toESM(require_react(), 1);
 globalThis.__BUNEXT_DEV_INIT ??= true;
 function Dev({ children }) {
@@ -14533,12 +14533,12 @@ function Dev({ children }) {
   }, []);
   return children;
 }
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/head.tsx
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/features/head.tsx
 var import_react3 = __toESM(require_react(), 1);
 
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/client/request.ts
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/features/client/request.ts
 var import_react2 = __toESM(require_react(), 1);
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/head.tsx
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/features/head.tsx
 var jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
 "use client";
 
