@@ -3,7 +3,7 @@ import {
   require_react,
   require_react_dom,
   useLoadingEffect
-} from "./../../chunk-q2ev17za.js";
+} from "./../../chunk-br1rcmt7.js";
 import {
   __commonJS,
   __toESM
@@ -571,33 +571,6 @@ function randomString(len, unauthorized = []) {
   }
   return str.slice(0, len);
 }
-function useClickAwayListener(callback, {
-  deps,
-  ...props
-}) {
-  const ref = useMuiRef(props.ref);
-  import_react.useEffect(() => {
-    let currentClick = false;
-    const onElementClick = (ev) => {
-      currentClick = true;
-    };
-    const onDocumentClick = (ev) => {
-      if (currentClick) {
-        currentClick = false;
-      } else {
-        if (!ref.current?.contains(ev.currentTarget))
-          callback(ev);
-      }
-    };
-    ref.current?.addEventListener("click", onElementClick);
-    document.addEventListener("click", onDocumentClick);
-    return () => {
-      ref.current?.removeEventListener("click", onElementClick);
-      document.removeEventListener("click", onDocumentClick);
-    };
-  }, [...deps || [], ref.current]);
-  return ref;
-}
 var CurrentMediaQueryContext = import_react.createContext("md");
 function GlobalMediaQueryProvider({ children }) {
   const mediaQuery = import_react.useContext(MediaQueryValuesContext);
@@ -682,12 +655,6 @@ function useColorOverRide({
   }, [colorOverRide, variable, ...deps || []]);
   return overRideColorHex;
 }
-function useValueOverRide({
-  valueOverRide,
-  variable
-}) {
-  return valueOverRide ? { [variable]: `${valueOverRide}` } : undefined;
-}
 var PropsOverRideContext = import_react.createContext({});
 function usePropsOverRide(arg) {
   const props = import_react.useContext(PropsOverRideContext);
@@ -695,68 +662,6 @@ function usePropsOverRide(arg) {
   if (Object.keys(props).length == 0)
     return {};
   return Object.assign({}, ...Object.keys(props).filter((e) => !keyofBypass.includes(e)).map((key) => ({ [key]: props[key] })));
-}
-function useIsOutOfViewport(ref, options) {
-  const [isOutOfViewport, setIsOutOfViewport] = import_react.useState(false);
-  import_react.useEffect(() => {
-    if (!ref?.current)
-      return;
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsOutOfViewport(entry.intersectionRatio < 1);
-    }, {
-      root: null,
-      threshold: options?.threshold || [0, 1]
-    });
-    const element = ref.current;
-    observer.observe(element);
-    return () => observer.unobserve(element);
-  }, [ref, options?.threshold]);
-  return isOutOfViewport;
-}
-function getHTMLAndBody() {
-  return {
-    html: document?.querySelector("html"),
-    body: document?.querySelector("body")
-  };
-}
-function usePreventScroll() {
-  const [, setCurrentStyles] = import_react.useState({
-    overflow: undefined,
-    padding: undefined
-  });
-  const preventScroll = import_react.useCallback(() => {
-    const { html, body } = getHTMLAndBody();
-    if (!html || !body)
-      return;
-    html.style.overflowY = "hidden";
-  }, []);
-  const restoreScroll = import_react.useCallback(() => {
-    const { html, body } = getHTMLAndBody();
-    if (!html || !body)
-      return;
-    setCurrentStyles((current) => {
-      html.style.overflowY = current.overflow || "";
-      body.style.paddingRight = current.padding || "";
-      return current;
-    });
-  }, []);
-  import_react.useEffect(() => {
-    const { html, body } = getHTMLAndBody();
-    if (!html || !body)
-      return;
-    setCurrentStyles({
-      overflow: html.style.overflowY,
-      padding: body.style.paddingRight
-    });
-    return restoreScroll;
-  }, []);
-  return [preventScroll, restoreScroll];
-}
-function MuiSSRPortal({ children }) {
-  const mainRef = import_react.useContext(ThemeWrapperRefContext);
-  if (typeof document != "undefined" && Boolean(mainRef?.current))
-    return import_react_dom.createPortal(children, mainRef?.current);
-  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(jsx_dev_runtime.Fragment, {}, undefined, false, undefined, this);
 }
 
 // node_modules/clsx/dist/clsx.mjs
@@ -1062,27 +967,6 @@ ${ThemeToCssVar(currentTheme)}
     }, undefined, true, undefined, this)
   }, undefined, false, undefined, this);
 }
-function useTheme(updateCallback, deps) {
-  const colorContext = import_react2.useContext(MuiColors);
-  const [, setCallback] = import_react2.useContext(ValueUpdateContext);
-  import_react2.useEffect(() => {
-    setCallback((e) => {
-      updateCallback && e.push(updateCallback);
-      return e;
-    });
-    return () => {
-      setCallback((e) => {
-        updateCallback && e.splice(e.indexOf(updateCallback, 1));
-        return e;
-      });
-    };
-  }, deps);
-  const [, set] = import_react2.useState("light");
-  import_react2.useEffect(() => {
-    set(colorContext.theme);
-  }, [colorContext.theme]);
-  return colorContext;
-}
 
 // src/mui/Box/index.tsx
 var import_react3 = __toESM(require_react(), 1);
@@ -1096,21 +980,10 @@ function Box({
 }
 
 // client:/home/shpaw415/Documents/bun_module/mui-lite/src/pages/index.tsx
-var import_react11 = __toESM(require_react(), 1);
+var import_react12 = __toESM(require_react(), 1);
 
 // node_modules/@material-design-icons/svg/filled/broken_image.svg
 var jsx_dev_runtime3 = __toESM(require_jsx_dev_runtime(), 1);
-var SVG = (props) => /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("svg", {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: "1em",
-  height: "1em",
-  viewBox: "0 0 24 24",
-  ...props,
-  children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("path", {
-    d: "M21 5v6.59l-3-3.01-4 4.01-4-4-4 4-3-3.01V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2m-3 6.42 3 3.01V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6.58l3 2.99 4-4 4 4z"
-  }, undefined, false, undefined, this)
-}, undefined, false, undefined, this);
-var broken_image_default = SVG;
 
 // src/common/ripple.tsx
 var import_react4 = __toESM(require_react(), 1);
@@ -1145,7 +1018,7 @@ function RippleBase({
     if (ripples.length > 0) {
       const timeout = setTimeout(() => {
         setRipples([]);
-      }, 1e5);
+      }, 300);
       return () => clearTimeout(timeout);
     }
   }, [ripples]);
@@ -1229,186 +1102,10 @@ var jsx_dev_runtime7 = __toESM(require_jsx_dev_runtime(), 1);
 
 // src/mui/Paper/index.tsx
 var import_react6 = __toESM(require_react(), 1);
-function Paper({
-  elevation = 1,
-  sx,
-  className,
-  variant = "elevation",
-  square,
-  element = "div",
-  ...props
-}) {
-  const theme = useTheme();
-  const style = useStyle(sx);
-  const calculatedOverlay = import_react6.useMemo(() => {
-    if (theme.theme == "light" || variant == "outlined")
-      return "none";
-    const calculatedOverlayOpacity = (elevation * 0.165 / 24).toPrecision(3);
-    return `linear-gradient(rgba(var(--bg-surface-light), ${calculatedOverlayOpacity}), rgba(var(--bg-surface-light), ${calculatedOverlayOpacity}))`;
-  }, [elevation, theme.theme]);
-  const overlayVariable = useValueOverRide({
-    variable: "--Paper-overlay",
-    valueOverRide: calculatedOverlay
-  });
-  const root = useClassNames({
-    component_name: "Paper_Root",
-    className,
-    state: [elevation && `elevation${elevation}`, variant, square && "square"]
-  });
-  return import_react6.createElement(element, {
-    className: root.combined,
-    style: {
-      ...overlayVariable,
-      ...style.styleFromSx
-    },
-    ...props
-  });
-}
 
 // src/mui/Menu/index.tsx
 var import_react7 = __toESM(require_react(), 1);
 var jsx_dev_runtime8 = __toESM(require_jsx_dev_runtime(), 1);
-function Menu({
-  open,
-  onClose,
-  anchorEl,
-  disablePreventScroll,
-  placement = "bottom",
-  className,
-  transform,
-  preventAutoPlacement,
-  ...props
-}) {
-  const [prevent, restore] = usePreventScroll();
-  const menuRef = useMuiRef(props.ref);
-  const [preventClose, setPreventClose] = import_react7.useState(false);
-  import_react7.useEffect(() => {
-    setPreventClose(Boolean(open));
-  }, [open]);
-  useClickAwayListener((e) => {
-    if (!preventClose && open) {
-      onClose?.();
-    } else if (preventClose)
-      setPreventClose(false);
-  }, {
-    deps: [onClose, open, preventClose],
-    ref: menuRef
-  });
-  import_react7.useEffect(() => {
-    const ctrl = new AbortController;
-    const handle = (e) => {};
-    anchorEl?.current?.addEventListener("click", handle, {
-      signal: ctrl.signal
-    });
-    anchorEl?.current?.addEventListener("focus", handle, {
-      signal: ctrl.signal
-    });
-    return () => ctrl.abort();
-  }, []);
-  const [coord, setCoord] = import_react7.useState();
-  const [placement_override, set_placement_override] = import_react7.useState();
-  const CoordSetter = import_react7.useCallback(() => {
-    if (!open || !menuRef.current)
-      return;
-    const coord2 = anchorEl?.current?.getBoundingClientRect();
-    const menuCoord = getComputedStyle(menuRef.current);
-    switch (placement_override || placement) {
-      case "bottom":
-        setCoord({
-          top: (coord2?.top || 0) + (coord2?.height || 0),
-          left: coord2?.left || 0,
-          transform: transform?.bottom
-        });
-        break;
-      case "top":
-        setCoord({
-          top: (coord2?.top || 0) - (coord2?.height || 0) - parseInt(menuCoord.height),
-          left: coord2?.left || 0,
-          transform: transform?.top
-        });
-        break;
-      case "left":
-        setCoord({
-          top: coord2?.top || 0,
-          left: (coord2?.left || 0) - parseInt(menuCoord.width),
-          transform: transform?.left
-        });
-        break;
-      case "right":
-        setCoord({
-          top: coord2?.top || 0,
-          left: (coord2?.left || 0) + parseInt(menuCoord.width) + (coord2?.width || 0),
-          transform: transform?.right
-        });
-        break;
-    }
-  }, [open]);
-  const menuIsVisible = useIsOutOfViewport(menuRef, {
-    threshold: [0.1, 0.5]
-  });
-  import_react7.useEffect(() => {
-    if (preventAutoPlacement || menuIsVisible || !open || placement_override === null) {
-      if (menuIsVisible && placement_override === null)
-        set_placement_override(undefined);
-      return;
-    }
-    switch (placement) {
-      case "top":
-        if (placement_override == undefined)
-          set_placement_override("bottom");
-        else if (placement_override == "bottom" && !menuIsVisible)
-          set_placement_override(null);
-        break;
-      case "bottom":
-        if (placement_override == undefined)
-          set_placement_override("top");
-        else if (placement_override == "top" && !menuIsVisible)
-          set_placement_override(null);
-        break;
-      case "left":
-        if (placement_override == undefined)
-          set_placement_override("right");
-        else if (placement_override == "right" && !menuIsVisible)
-          set_placement_override(null);
-        break;
-      case "right":
-        if (placement_override == undefined)
-          set_placement_override("left");
-        else if (placement_override == "left" && !menuIsVisible)
-          set_placement_override(null);
-        break;
-    }
-    CoordSetter();
-  }, [menuIsVisible, placement_override, open, preventAutoPlacement]);
-  import_react7.useEffect(() => {
-    CoordSetter();
-    if (open) {
-      !disablePreventScroll && setTimeout(() => prevent(), 100);
-    } else {
-      !disablePreventScroll && restore();
-    }
-  }, [open, anchorEl]);
-  import_react7.useEffect(() => {
-    window.addEventListener("resize", CoordSetter);
-    return () => {
-      window.removeEventListener("resize", CoordSetter);
-    };
-  }, [open]);
-  const menu = useClassNames({
-    component_name: "Menu_Root",
-    state: [open && "open"],
-    className
-  });
-  return /* @__PURE__ */ jsx_dev_runtime8.jsxDEV(MuiSSRPortal, {
-    children: /* @__PURE__ */ jsx_dev_runtime8.jsxDEV(Paper, {
-      elevation: 8,
-      ...props,
-      ref: menuRef,
-      className: menu.combined,
-      sx: { ...coord, ...props.sx }
-    }, undefined, false, undefined, this)
-  }, undefined, false, undefined, this);
-}
 
 // src/mui/List/index.tsx
 var import_react8 = __toESM(require_react(), 1);
@@ -1481,19 +1178,6 @@ function ListItemButton({
     }, undefined, true, undefined, this)
   });
 }
-function ListItemIcon({ className, sx, ...props }) {
-  const classes = import_react8.useMemo(() => `MUI_ListItemIcon_Root ${className ?? ""}`, [className]);
-  const style = useStyle(sx);
-  const opacityVar = useValueOverRide({
-    variable: "--theme-opacity",
-    valueOverRide: style.theme.theme == "light" ? "0.54" : "1"
-  });
-  return /* @__PURE__ */ jsx_dev_runtime9.jsxDEV("div", {
-    ...props,
-    className: classes,
-    style: { ...style.styleFromSx, ...opacityVar }
-  }, undefined, false, undefined, this);
-}
 function ListItemText({
   className,
   sx,
@@ -1545,17 +1229,20 @@ function InputBase({
   id,
   multiline,
   variant,
+  className,
   ...props
 }) {
   const classes_input = useClassNames({
     component_name: "TextField_Input",
     variant,
-    state: []
+    state: [],
+    className
   });
   const classes_textArea = useClassNames({
     component_name: "TextField_TextArea",
     variant,
-    state: []
+    state: [],
+    className
   });
   return multiline ? /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("textarea", {
     id,
@@ -1701,199 +1388,150 @@ var TextField_default = TextField;
 // src/mui/AutoComplete/index.tsx
 var import_react10 = __toESM(require_react(), 1);
 var jsx_dev_runtime12 = __toESM(require_jsx_dev_runtime(), 1);
-var react = __toESM(require_react(), 1);
-function AutoComplete({
-  SlotProps,
-  options,
+
+// src/mui/Select/index.tsx
+var import_react11 = __toESM(require_react(), 1);
+
+// node_modules/@material-design-icons/svg/filled/arrow_drop_down.svg
+var jsx_dev_runtime13 = __toESM(require_jsx_dev_runtime(), 1);
+var SVG = (props) => /* @__PURE__ */ jsx_dev_runtime13.jsxDEV("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: "1em",
+  height: "1em",
+  viewBox: "0 0 24 24",
+  ...props,
+  children: /* @__PURE__ */ jsx_dev_runtime13.jsxDEV("path", {
+    d: "m7 10 5 5 5-5z"
+  }, undefined, false, undefined, this)
+}, undefined, false, undefined, this);
+var arrow_drop_down_default = SVG;
+
+// src/mui/Select/index.tsx
+var jsx_dev_runtime14 = __toESM(require_jsx_dev_runtime(), 1);
+function Select({
+  sx,
+  className,
+  value,
+  defaultValue,
+  children,
   onSelect,
-  onChange,
-  onFilter,
-  listItemRender,
-  formatSelect,
-  formatInput,
-  value
+  SlotProps,
+  formatName,
+  ref,
+  ...props
 }) {
-  const [open, setOpen] = import_react10.useState(true);
-  import_react10.useEffect(() => setOpen(false), []);
-  const [showedOptions, setShowOptions] = import_react10.useState(options);
-  const dropdown = useClassNames({
-    component_name: "AutoComplete_dropdown_root",
-    state: [open && "open"],
-    className: SlotProps?.dropdown?.className
+  if (!Array.isArray(children))
+    children = [children];
+  const _style = useStyle(sx);
+  const DefaultValueMemo = import_react11.useMemo(() => {
+    if (defaultValue) {
+      const option = children.find((e) => e.props?.value == defaultValue);
+      if (formatName && option)
+        return formatName(option);
+      else
+        return option?.props?.value ?? option?.props?.children ?? "";
+    }
+    return "";
+  }, [defaultValue]);
+  const [_value, setValue] = import_react11.useState(defaultValue || "");
+  const [displayedValue, setDisplayedValue] = import_react11.useState(DefaultValueMemo);
+  import_react11.useEffect(() => {
+    setDisplayedValue(DefaultValueMemo);
+  }, [defaultValue]);
+  const root = useClassNames({
+    component_name: "Select_Root",
+    className
   });
-  const ButtonClassId = useRandomID();
-  const changeHandler = (e) => {
-    SlotProps?.input?.onChange?.(e);
-    onChange?.(e);
-    if (onFilter) {
-      const filtered = options.filter((opt) => onFilter(opt, e.currentTarget.value));
-      setShowOptions(filtered);
-    } else
-      setShowOptions(filter(options, e.currentTarget.value));
-    set_pseudo_selection(undefined);
-    setOpen(true);
-  };
-  const onFocusHandler = import_react10.useCallback((e) => {
-    e.preventDefault();
-    SlotProps?.input?.onFocus?.(e);
-    setOpen(true);
-  }, [SlotProps?.input?.onFocus, showedOptions.length]);
-  const inputRef = useMuiRef(SlotProps?.input?.ref);
-  const onSelectHandler = import_react10.useCallback((opt) => {
-    if (opt) {
-      onSelect?.(opt);
-      if (inputRef.current?.value != null) {
-        inputRef.current.value = formatInput?.(opt) || (typeof opt == "string" ? opt : opt?.label || "");
+  const dropDown = useClassNames({
+    component_name: "Select_DropDown_Root",
+    className: SlotProps?.["dropdown-wrapper"]?.className
+  });
+  const select = useClassNames({
+    component_name: "Select_Input"
+  });
+  const OnSelectHandler = import_react11.useCallback(onSelect ? (child, index) => {
+    onSelect(child.props?.value || index, child);
+    if (!value) {
+      setDisplayedValue(formatName ? formatName(child) : child.props?.children);
+      setValue(child.props?.value);
+    } else {}
+  } : (child, index) => {
+    const newValue = child.props?.value;
+    setDisplayedValue(formatName ? formatName(child) : child.props?.children);
+    setValue(newValue);
+  }, [onSelect]);
+  if (value && _value != value) {
+    setValue(value);
+    setDisplayedValue(() => {
+      for (const child of children) {
+        if (child.props?.value != value)
+          continue;
+        return formatName ? formatName(child) : child.props?.value ?? child.props.children;
       }
-    }
-    setOpen(false);
-  }, [onSelect, inputRef]);
-  import_react10.useEffect(() => {
-    setShowOptions(options);
-  }, [options.length]);
-  const inputWidth = import_react10.useMemo(() => {
-    if (!inputRef.current)
-      return 0;
-    return inputRef.current.offsetWidth;
-  }, [inputRef.current]);
-  const [pseudo_selection, set_pseudo_selection] = import_react10.useState();
-  const scrollToPseudo = import_react10.useCallback((pseudo, opt) => {
-    console.log(`button[index-data="${pseudo}"].${SlotProps?.input?.id || ButtonClassId}`);
-    const pseudoSelected = document.querySelector(`button[index-data="${pseudo}"].${SlotProps?.input?.id || ButtonClassId}`);
-    pseudoSelected?.scrollIntoView({
-      inline: "center",
-      block: "center",
-      behavior: "smooth",
-      ...opt
     });
-    return pseudo;
-  }, [SlotProps?.input?.id, ButtonClassId]);
-  import_react10.useEffect(() => {
-    if (!open) {
-      set_pseudo_selection(undefined);
-      return;
-    }
+  }
+  const startIconRef = useMuiRef(SlotProps?.startIconWrapper?.ref);
+  const fieldRef = useMuiRef(ref);
+  import_react11.useEffect(() => {
     const ctrl = new AbortController;
-    setShowOptions((c) => {
-      const index = c.findIndex((d) => {
-        if (typeof d == "string")
-          return inputRef.current?.value == d;
-        else
-          return inputRef.current?.value == d?.label;
-      });
-      if (index != -1)
-        scrollToPseudo(index);
-      return c;
-    });
-    inputRef.current?.addEventListener("keydown", (e) => {
-      switch (e.key) {
-        case "ArrowUp":
-          e.preventDefault();
-          set_pseudo_selection((c) => {
-            if (c == undefined)
-              return 0;
-            else if (c > 0) {
-              return scrollToPseudo(c - 1);
-            } else {
-              return scrollToPseudo(showedOptions.length - 1);
-            }
-          });
-          break;
-        case "ArrowDown":
-          e.preventDefault();
-          set_pseudo_selection((c) => {
-            if (c == undefined)
-              return 0;
-            else if (c < showedOptions.length) {
-              return scrollToPseudo(c + 1);
-            } else {
-              return scrollToPseudo(0);
-            }
-          });
-          break;
-        case "Enter":
-          e.preventDefault();
-          set_pseudo_selection((current) => {
-            if (current != null)
-              onSelectHandler(showedOptions[current]);
-            setOpen(false);
-            return current;
-          });
-          break;
-      }
+    startIconRef?.current?.addEventListener("click", () => {
+      fieldRef.current?.focus();
     }, { signal: ctrl.signal });
     return () => ctrl.abort();
-  }, [open, showedOptions.length]);
-  const mouseEnterHandler = import_react10.useCallback((e) => {
-    set_pseudo_selection(parseInt(e.currentTarget.getAttribute("index-data")));
-  }, []);
-  const blurHandler = import_react10.useCallback(() => {
-    set_pseudo_selection(undefined);
-  }, []);
-  return /* @__PURE__ */ jsx_dev_runtime12.jsxDEV(jsx_dev_runtime12.Fragment, {
+  }, [startIconRef]);
+  return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
+    style: _style.styleFromSx,
+    className: root.combined,
     children: [
-      /* @__PURE__ */ jsx_dev_runtime12.jsxDEV(TextField_default, {
-        ...SlotProps?.input,
-        ref: inputRef,
-        onChange: changeHandler,
-        onFocus: onFocusHandler,
-        onBlur: blurHandler,
-        value,
-        autoComplete: "off"
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(TextField_default, {
+        SlotProps: {
+          startIconWrapper: {
+            ref: startIconRef
+          }
+        },
+        value: displayedValue || DefaultValueMemo,
+        endIcon: /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(arrow_drop_down_default, {
+          ...SlotProps?.["end-icon"],
+          className: [
+            "MUI_Select_DropDown_Arrow",
+            SlotProps?.["end-icon"]?.className
+          ].join(" ")
+        }, undefined, false, undefined, this),
+        className: select.combined,
+        sx,
+        readOnly: true,
+        ...props,
+        ref: fieldRef
       }, undefined, false, undefined, this),
-      /* @__PURE__ */ jsx_dev_runtime12.jsxDEV(Menu, {
-        open,
-        preventAutoPlacement: true,
-        ...SlotProps?.dropdown,
-        anchorEl: inputRef,
-        className: dropdown.combined,
-        onClose: () => {
-          if (document.activeElement != inputRef.current)
-            setOpen(false);
-        },
-        sx: {
-          width: inputWidth,
-          maxWidth: inputWidth
-        },
-        placement: "bottom",
-        children: /* @__PURE__ */ jsx_dev_runtime12.jsxDEV(List, {
-          ...SlotProps?.list,
-          children: showedOptions.map((opt, i) => {
-            return /* @__PURE__ */ react.createElement(ListItemButton, {
-              ...SlotProps?.listButton,
-              selected: formatSelect ? formatSelect(opt, inputRef.current?.value || "") : inputRef.current?.value == (typeof opt == "string" ? opt : opt?.label),
-              className: [
-                pseudo_selection == i ? "pseudo_selected" : undefined,
-                SlotProps?.listButton?.className
-              ].join(" "),
-              key: typeof opt == "string" ? opt : opt?.label,
-              "index-data": i,
-              onClick: () => onSelectHandler(opt),
-              onMouseEnter: mouseEnterHandler
-            }, listItemRender ? listItemRender(opt) : typeof opt == "string" ? opt : opt?.label);
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Box, {
+        ...SlotProps?.["dropdown-wrapper"],
+        className: dropDown.combined,
+        children: /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(List, {
+          ...SlotProps?.["dropdown-list"],
+          className: [
+            "overflow-auto",
+            SlotProps?.["dropdown-list"]?.className
+          ].join(" "),
+          disablePadding: true,
+          children: children.map((child, index) => {
+            return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(ListItemButton, {
+              "e-value": child.props.value,
+              onClick: (ev) => {
+                OnSelectHandler(child, index);
+                ev.currentTarget.blur();
+              },
+              className: (displayedValue || DefaultValueMemo) == child.props?.value ? "selected" : "",
+              children: typeof child.props.children == "string" ? /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(ListItemText, {
+                primary: child?.props?.children
+              }, undefined, false, undefined, this) : child?.props?.children
+            }, index, false, undefined, this);
           })
         }, undefined, false, undefined, this)
       }, undefined, false, undefined, this)
     ]
   }, undefined, true, undefined, this);
 }
-function filter(opts, value) {
-  if (opts.find((c) => {
-    if (typeof c == "string" && value == c)
-      return true;
-    else if (typeof c != "string" && c.label == value)
-      return true;
-  }))
-    return opts;
-  if (!value)
-    return opts;
-  return opts.filter((opt) => {
-    const option_value = (typeof opt == "string" ? opt : opt.label).toLowerCase();
-    if (option_value.includes(value))
-      return true;
-    return false;
-  });
-}
+var Select_default = Select;
 
 // client:/home/shpaw415/Documents/bun_module/mui-lite/src/pages/index.tsx
 "use client";
@@ -1916,18 +1554,18 @@ function Page({
       window.location.reload();
     globalThis.dry = true;
   }, []);
-  const [theme1, setTheme1] = import_react11.useState(structuredClone(DefaultTheme));
-  const [theme2, setTheme2] = import_react11.useState(() => {
+  const [theme1, setTheme1] = import_react12.useState(structuredClone(DefaultTheme));
+  const [theme2, setTheme2] = import_react12.useState(() => {
     const cTheme = structuredClone(DefaultTheme);
     cTheme.theme = "dark";
     cTheme.locale = lang;
     return cTheme;
   });
-  const switcher = import_react11.useCallback((theme3) => {
+  const switcher = import_react12.useCallback((theme3) => {
     theme3.theme = theme3.theme == "light" ? "dark" : "light";
     return structuredClone(theme3);
   }, []);
-  import_react11.useEffect(() => {
+  import_react12.useEffect(() => {
     if (theme) {
       setTheme1((c) => {
         c.theme = theme;
@@ -1968,44 +1606,23 @@ function Page({
   }, undefined, true, undefined, this);
 }
 function ToolTipTest() {
-  const opts = [
-    { label: "canada", phone_code: "+ 1" },
-    { label: "albanie", phone_code: "+ 68" },
-    { label: "united-state", phone_code: "+ 1" }
-  ];
-  return jsxDEV_7x81h0kn(AutoComplete, {
-    options: opts,
-    SlotProps: {
-      list: {
-        dense: true,
-        disablePadding: true
-      },
-      dropdown: {
-        className: "min-w-[140px] translate-x-[-30px]"
-      },
-      input: {
-        className: "w-[100px]",
-        startIcon: jsxDEV_7x81h0kn(broken_image_default, {}, undefined, false, undefined, this),
-        variant: "filled",
-        color: "secondary"
-      },
-      listButton: {
-        className: "p-0 m-0 h-[50px]"
-      }
-    },
-    formatSelect: ({ phone_code, label }, input) => phone_code == input.toLowerCase(),
-    formatInput: ({ phone_code }) => phone_code,
-    listItemRender: (val) => [
-      jsxDEV_7x81h0kn(ListItemIcon, {
-        className: "min-w-fit mr-1",
-        children: jsxDEV_7x81h0kn(broken_image_default, {}, undefined, false, undefined, this)
-      }, 0, false, undefined, this),
-      jsxDEV_7x81h0kn(ListItemText, {
-        primary: val.phone_code,
-        secondary: val.label
-      }, 1, false, undefined, this)
+  return jsxDEV_7x81h0kn(Select_default, {
+    name: "a",
+    children: [
+      jsxDEV_7x81h0kn("option", {
+        value: "a",
+        children: "a"
+      }, undefined, false, undefined, this),
+      jsxDEV_7x81h0kn("option", {
+        value: "b",
+        children: "b"
+      }, undefined, false, undefined, this),
+      jsxDEV_7x81h0kn("option", {
+        value: "c",
+        children: "c"
+      }, undefined, false, undefined, this)
     ]
-  }, undefined, false, undefined, this);
+  }, undefined, true, undefined, this);
 }
 export {
   TestPage as default

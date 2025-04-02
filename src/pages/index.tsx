@@ -12,6 +12,7 @@ import Menu from "../mui/Menu";
 import { List, ListItem, ListItemIcon, ListItemText } from "../mui/List";
 import TextField from "../mui/TextField";
 import AutoComplete from "../mui/AutoComplete";
+import Select from "../mui/Select";
 
 declare global {
   var dry: boolean;
@@ -90,42 +91,11 @@ function Page({
 }
 
 function ToolTipTest() {
-  const opts = [
-    { label: "canada", phone_code: "+ 1" },
-    { label: "albanie", phone_code: "+ 68" },
-    { label: "united-state", phone_code: "+ 1" },
-  ];
   return (
-    <AutoComplete
-      options={opts}
-      SlotProps={{
-        list: {
-          dense: true,
-          disablePadding: true,
-        },
-        dropdown: {
-          className: "min-w-[140px] translate-x-[-30px]",
-        },
-        input: {
-          className: "w-[100px]",
-          startIcon: <SVG />,
-          variant: "filled",
-          color: "secondary",
-        },
-        listButton: {
-          className: "p-0 m-0 h-[50px]",
-        },
-      }}
-      formatSelect={({ phone_code, label }, input) =>
-        phone_code == input.toLowerCase()
-      }
-      formatInput={({ phone_code }) => phone_code}
-      listItemRender={(val) => [
-        <ListItemIcon key={0} className="min-w-fit mr-1">
-          <SVG />
-        </ListItemIcon>,
-        <ListItemText key={1} primary={val.phone_code} secondary={val.label} />,
-      ]}
-    />
+    <Select name="a">
+      <option value={"a"}>a</option>
+      <option value={"b"}>b</option>
+      <option value={"c"}>c</option>
+    </Select>
   );
 }

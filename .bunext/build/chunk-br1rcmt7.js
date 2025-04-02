@@ -1809,7 +1809,7 @@ var require_jsx_runtime = __commonJS((exports, module) => {
 
 // node_modules/react-dom/cjs/react-dom.development.js
 var require_react_dom_development = __commonJS((exports) => {
-  var React2 = __toESM(require_react(), 1);
+  var React = __toESM(require_react(), 1);
   (function() {
     function noop() {}
     function testStringCoercion(value) {
@@ -1870,7 +1870,7 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
       },
       p: 0,
       findDOMNode: null
-    }, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    }, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     typeof Map === "function" && Map.prototype != null && typeof Map.prototype.forEach === "function" && typeof Set === "function" && Set.prototype != null && typeof Set.prototype.clear === "function" && typeof Set.prototype.forEach === "function" || console.error("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills");
     exports.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = Internals;
     exports.createPortal = function(children, container) {
@@ -1998,97 +1998,16 @@ var require_react_dom = __commonJS((exports, module) => {
   }
 });
 
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/internal/globals.ts
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/globals.ts
 var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-var import_react = __toESM(require_react(), 1);
-globalThis.React = import_react.default;
-globalThis.jsx_w77yafs4 = import_jsx_runtime.jsx;
-globalThis.jsx = import_jsx_runtime.jsx;
-globalThis.jsxDEV_7x81h0kn = import_jsx_dev_runtime.jsxDEV;
-globalThis.jsxDEV = import_jsx_dev_runtime.jsxDEV;
-globalThis.jsxs_eh6c78nj = import_jsx_runtime.jsxs;
-globalThis.jsxs = import_jsx_runtime.jsxs;
-globalThis.Fragment_8vg9x3sq = import_jsx_dev_runtime.Fragment;
-globalThis.Fragment = import_jsx_dev_runtime.Fragment;
-globalThis.ServerActionCallbacks ??= [];
-function AddServerActionCallback(callback, id) {
-  if (globalThis.ServerActionCallbacks.find((e) => e.id == id)) {
-    globalThis.ServerActionCallbacks.splice(globalThis.ServerActionCallbacks.findIndex((e) => e.id == id), 1);
-  }
-  ServerActionCallbacks.push({ callback, id });
-}
-function InitServerActionData(...props) {
-  let currentPropsIndex = 0;
-  const formatToFile = () => {
-    currentPropsIndex++;
-    return `BUNEXT_FILE_${currentPropsIndex}`;
-  };
-  const formatToBatchedFile = () => {
-    return `BUNEXT_BATCH_FILES_${currentPropsIndex}`;
-  };
-  let formData = new FormData;
-  let _props = props.map((prop) => {
-    if (prop instanceof File) {
-      const id = formatToFile();
-      formData.append(id, prop);
-      return id;
-    } else if (Array.isArray(prop) && prop.length > 0) {
-      currentPropsIndex++;
-      const id = formatToBatchedFile();
-      return prop.map((p) => {
-        if (p instanceof File) {
-          formData.append(id, p);
-          return id;
-        } else
-          return p;
-      });
-    } else if (prop instanceof FormData) {
-      if (props.length > 1)
-        throw new Error("only one prop is permitted with a FormData in a ServerAction");
-      formData = prop;
-      return "BUNEXT_FORMDATA";
-    } else
-      return prop;
-  });
-  formData.append("props", encodeURI(JSON.stringify(_props)));
-  return formData;
-}
-async function MakeServerActionRequest(props, serverActionID) {
-  const res = await fetch("/ServerActionGetter", {
-    headers: {
-      serverActionID
-    },
-    method: "POST",
-    body: InitServerActionData(...props)
-  });
-  for (const el of globalThis.ServerActionCallbacks)
-    el.callback(res.clone());
-  return await ParseServerActionResponse(res);
-}
-async function ParseServerActionResponse(response2) {
-  if (!response2.ok)
-    throw new Error("error when Calling server action <!ModulePath!>:<!FuncName!>");
-  globalThis.__PUBLIC_SESSION_DATA__ = GetSessionFromResponse(response2);
-  switch (response2.headers.get("dataType")) {
-    case "json":
-      return (await response2.json()).props;
-    case "blob":
-      return await response2.blob();
-    case "file":
-      const blob = await response2.blob();
-      const { name, lastModified } = JSON.parse(response2.headers.get("fileData") || "");
-      return new File([blob], name, {
-        type: blob.type,
-        lastModified
-      });
-  }
-}
-function GetSessionFromResponse(response2) {
-  return JSON.parse(decodeURI(response2.headers.get("session") || ""));
-}
-globalThis.MakeServerActionRequest ??= MakeServerActionRequest;
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/internal/router/utils/get-route-matcher.ts
+var import_react4 = __toESM(require_react(), 1);
+
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/router/index.tsx
+var import_react3 = __toESM(require_react(), 1);
+var import_react_dom = __toESM(require_react_dom(), 1);
+
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/router/utils/get-route-matcher.ts
 "use client";
 function getRouteMatcher(routes) {
   const processed = Object.entries(routes).map(([path, value]) => ({
@@ -2198,8 +2117,8 @@ function getRouteRegex(normalizedRoute) {
 }
 function getRouteMatcherFunc(routeRegex) {
   const { re, groups } = routeRegex;
-  return (pathname2) => {
-    const routeMatch = re.exec(pathname2);
+  return (pathname) => {
+    const routeMatch = re.exec(pathname);
     if (!routeMatch) {
       return false;
     }
@@ -2221,11 +2140,7 @@ function getRouteMatcherFunc(routeRegex) {
     return params;
   };
 }
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/internal/router/index.tsx
-var import_react4 = __toESM(require_react(), 1);
-var import_react_dom = __toESM(require_react_dom(), 1);
-
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/utils.ts
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/features/utils.ts
 "use client";
 function generateRandomString(length) {
   let result = "";
@@ -2258,13 +2173,13 @@ function normalize(path) {
   }
   return normalizedPath;
 }
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/session.ts
-var import_react3 = __toESM(require_react(), 1);
-
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/internal/context.ts
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/features/session.ts
 var import_react2 = __toESM(require_react(), 1);
-var RequestContext = import_react2.createContext(undefined);
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/features/session.ts
+
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/context.ts
+var import_react = __toESM(require_react(), 1);
+var RequestContext = import_react.createContext(undefined);
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/features/session.ts
 "use client";
 
 class _Session {
@@ -2278,6 +2193,7 @@ class _Session {
   request;
   update_function;
   updated_id = generateRandomString(5);
+  session_expiration_override;
   constructor({
     data,
     sessionTimeout,
@@ -2292,6 +2208,10 @@ class _Session {
       this.request = request;
     if (update_function)
       this.update_function = update_function;
+  }
+  setExpiration(expiration) {
+    this.session_expiration_override = expiration;
+    return this;
   }
   getSessionTimeout() {
     return globalThis.__SESSION_TIMEOUT__;
@@ -2412,13 +2332,14 @@ class _Session {
     return new Date().getTime();
   }
 }
-var SessionContext = import_react3.createContext(new _Session({}));
-var SessionDidUpdateContext = import_react3.createContext(false);
-// module:/home/shpaw415/Documents/bun_module/mui-tailwind/node_modules/@bunpmjs/bunext/internal/router/index.tsx
+var SessionContext = import_react2.createContext(new _Session({}));
+var SessionDidUpdateContext = import_react2.createContext(false);
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/router/index.tsx
 var jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
 "use client";
 var globalX = globalThis;
 var match = globalX.__ROUTES__ ? getRouteMatcher(globalX.__ROUTES__) : () => null;
+var __MAIN_ROUTE__ = match(`${globalX.__INITIAL_ROUTE__}`)?.path;
 async function fetchServerSideProps(pathname) {
   const response = await fetch(pathname, {
     headers: {
@@ -2427,50 +2348,42 @@ async function fetchServerSideProps(pathname) {
     }
   });
   if (response.ok) {
-    const text = await response.text() || "undefined";
-    return eval(`(${text})`);
+    return ParseServerSideProps(await response.text());
   }
   throw new Error("Failed to fetch");
 }
-var VersionContext = import_react4.createContext(0);
-var useLoadingVersion = () => import_react4.useContext(VersionContext);
+function ParseServerSideProps(props) {
+  if (props?.length > 0)
+    return JSON.parse(props);
+  else
+    return;
+}
+var VersionContext = import_react3.createContext(0);
 var useLoadingEffect = (effect, deps = []) => {
-  import_react4.useEffect(effect, [import_react4.useContext(VersionContext), ...deps]);
+  import_react3.useEffect(effect, [import_react3.useContext(VersionContext), ...deps]);
 };
 var useReloadEffect = (effect, deps = []) => {
-  const [once, setOnce] = import_react4.useState(true);
-  import_react4.useEffect(() => {
+  const [once, setOnce] = import_react3.useState(true);
+  import_react3.useEffect(() => {
     if (once) {
       setOnce(false);
       return;
     }
     return effect();
-  }, [import_react4.useContext(VersionContext), ...deps]);
+  }, [import_react3.useContext(VersionContext), ...deps]);
 };
-var ReloadContext = import_react4.createContext(async () => {});
-function useReload() {
-  const reload = import_react4.useContext(ReloadContext);
-  return reload;
-}
-function useRouteState(key, initial) {
-  return import_react4.useReducer((_old, newvalue) => {
-    const routeState = history.state ?? {};
-    if (routeState[key] !== newvalue)
-      history.replaceState({ ...routeState, [key]: newvalue }, "");
-    return newvalue;
-  }, globalThis.history?.state?.[key] ?? initial);
-}
+var ReloadContext = import_react3.createContext(async () => {});
 var RouterHost = ({
   children,
   normalizeUrl = (url) => url,
   Shell,
   onRouteUpdated
 }) => {
-  const pathname2 = useLocationProperty(() => normalizeUrl(location.pathname + location.search), () => globalX.__INITIAL_ROUTE__);
-  const [current, setCurrent] = import_react4.useState(children);
-  const [version, setVersion] = import_react4.useState(0);
-  const versionRef = import_react4.useRef(version);
-  const reload = import_react4.useCallback(async (target = location.pathname + location.search) => {
+  const pathname = useLocationProperty(() => normalizeUrl(location.pathname + location.search), () => globalX.__INITIAL_ROUTE__);
+  const [current, setCurrent] = import_react3.useState(children);
+  const [version, setVersion] = import_react3.useState(0);
+  const versionRef = import_react3.useRef(version);
+  const reload = import_react3.useCallback(async (target = location.pathname + location.search) => {
     if (typeof target !== "string")
       throw new Error("invalid target", target);
     const currentVersion = ++versionRef.current;
@@ -2478,6 +2391,7 @@ var RouterHost = ({
       const matched = match(target.split("?").at(0));
       if (!matched)
         throw new Error("no match found");
+      await OnDevRouterUpdate(matched);
       const [props, module] = await Promise.all([
         fetchServerSideProps(target),
         import(`${matched.value}${`?${currentVersion}`}`)
@@ -2494,7 +2408,7 @@ var RouterHost = ({
         if (props?.redirect) {
           navigate(props.redirect);
         } else {
-          import_react4.startTransition(() => {
+          import_react3.startTransition(() => {
             onRouteUpdated?.(target);
             setVersion(currentVersion);
             setCurrent(/* @__PURE__ */ jsx_dev_runtime.jsxDEV(Shell, {
@@ -2509,17 +2423,17 @@ var RouterHost = ({
       console.log(e);
     }
   }, []);
-  import_react4.useEffect(() => {
-    if (pathname2 === globalX.__INITIAL_ROUTE__) {
-      onRouteUpdated?.(pathname2);
+  import_react3.useEffect(() => {
+    if (pathname === globalX.__INITIAL_ROUTE__) {
+      onRouteUpdated?.(pathname);
       delete globalX.__INITIAL_ROUTE__;
     } else {
-      reload(pathname2).catch((e) => {
+      reload(pathname).catch((e) => {
         console.log(e);
-        location.href = pathname2;
+        location.href = pathname;
       });
     }
-  }, [pathname2]);
+  }, [pathname]);
   return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(ReloadContext.Provider, {
     value: reload,
     children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV(VersionContext.Provider, {
@@ -2528,11 +2442,19 @@ var RouterHost = ({
     }, undefined, false, undefined, this)
   }, undefined, false, undefined, this);
 };
+async function OnDevRouterUpdate(matched) {
+  if (false)
+    ;
+  if (matched.path == __MAIN_ROUTE__)
+    return;
+  window.location.href = window.location.href;
+  return new Promise(() => {});
+}
 function SessionProvider({ children }) {
-  const [updater, setUpdater] = import_react4.useState(false);
-  const session = import_react4.useMemo(() => new _Session({ update_function: setUpdater }), []);
-  const [sessionTimer, setSessionTimer] = import_react4.useState();
-  const timerSetter = import_react4.useCallback(() => {
+  const [updater, setUpdater] = import_react3.useState(false);
+  const session = import_react3.useMemo(() => new _Session({ update_function: setUpdater }), []);
+  const [sessionTimer, setSessionTimer] = import_react3.useState();
+  const timerSetter = import_react3.useCallback(() => {
     setSessionTimer((c) => {
       clearTimeout(c);
       return setTimeout(() => {
@@ -2542,12 +2464,12 @@ function SessionProvider({ children }) {
       }, session.getSessionTimeout() - new Date().getTime());
     });
   }, []);
-  const addToServerActionCallback = import_react4.useCallback(() => AddServerActionCallback((res) => {
+  const addToServerActionCallback = import_react3.useCallback(() => AddServerActionCallback((res) => {
     session.update();
     session.setSessionTimeout(JSON.parse(res.headers.get("__bunext_session_timeout__")));
     timerSetter();
   }, "update_session_callback"), []);
-  import_react4.useEffect(() => {
+  import_react3.useEffect(() => {
     addToServerActionCallback();
     const sessionDataTimer = setInterval(() => {
       if (globalThis.__PUBLIC_SESSION_DATA__) {
@@ -2623,10 +2545,7 @@ var subscribeToLocationUpdates = (callback) => {
   return () => abort.abort();
 };
 function useLocationProperty(fn, ssrFn) {
-  return import_react4.useSyncExternalStore(subscribeToLocationUpdates, fn, ssrFn);
-}
-function usePathname() {
-  return useLocationProperty(() => location.pathname, () => globalX.__INITIAL_ROUTE__);
+  return import_react3.useSyncExternalStore(subscribeToLocationUpdates, fn, ssrFn);
 }
 var navigate = (to, { replace = false } = {}) => history[replace ? eventReplaceState : eventPushState](null, "", to);
 var eventPopstate = "popstate";
@@ -2646,4 +2565,94 @@ if (typeof history !== "undefined") {
     };
   }
 }
+// module:/home/shpaw415/Documents/bun_module/mui-lite/node_modules/@bunpmjs/bunext/internal/globals.ts
+globalThis.React = import_react4.default;
+globalThis.jsx_w77yafs4 = import_jsx_runtime.jsx;
+globalThis.jsx = import_jsx_runtime.jsx;
+globalThis.jsxDEV_7x81h0kn = import_jsx_dev_runtime.jsxDEV;
+globalThis.jsxDEV = import_jsx_dev_runtime.jsxDEV;
+globalThis.jsxs_eh6c78nj = import_jsx_runtime.jsxs;
+globalThis.jsxs = import_jsx_runtime.jsxs;
+globalThis.Fragment_8vg9x3sq = import_jsx_dev_runtime.Fragment;
+globalThis.Fragment = import_jsx_dev_runtime.Fragment;
+globalThis.ServerActionCallbacks ??= [];
+function AddServerActionCallback(callback, id) {
+  if (globalThis.ServerActionCallbacks.find((e) => e.id == id)) {
+    globalThis.ServerActionCallbacks.splice(globalThis.ServerActionCallbacks.findIndex((e) => e.id == id), 1);
+  }
+  ServerActionCallbacks.push({ callback, id });
+}
+function InitServerActionData(...props) {
+  let currentPropsIndex = 0;
+  const formatToFile = () => {
+    currentPropsIndex++;
+    return `BUNEXT_FILE_${currentPropsIndex}`;
+  };
+  const formatToBatchedFile = () => {
+    return `BUNEXT_BATCH_FILES_${currentPropsIndex}`;
+  };
+  let formData = new FormData;
+  let _props = props.map((prop) => {
+    if (prop instanceof File) {
+      const id = formatToFile();
+      formData.append(id, prop);
+      return id;
+    } else if (Array.isArray(prop) && prop.length > 0) {
+      currentPropsIndex++;
+      const id = formatToBatchedFile();
+      return prop.map((p) => {
+        if (p instanceof File) {
+          formData.append(id, p);
+          return id;
+        } else
+          return p;
+      });
+    } else if (prop instanceof FormData) {
+      if (props.length > 1)
+        throw new Error("only one prop is permitted with a FormData in a ServerAction");
+      formData = prop;
+      return "BUNEXT_FORMDATA";
+    } else
+      return prop;
+  });
+  formData.append("props", encodeURI(JSON.stringify(_props)));
+  return formData;
+}
+async function MakeServerActionRequest(props, serverActionID) {
+  const res = await fetch("/ServerActionGetter", {
+    headers: {
+      serverActionID
+    },
+    method: "POST",
+    body: InitServerActionData(...props)
+  });
+  for (const el of globalThis.ServerActionCallbacks)
+    el.callback(res.clone());
+  return await ParseServerActionResponse(res);
+}
+async function ParseServerActionResponse(response) {
+  if (!response.ok)
+    throw new Error("error when Calling server action <!ModulePath!>:<!FuncName!>");
+  globalThis.__PUBLIC_SESSION_DATA__ = GetSessionFromResponse(response);
+  switch (response.headers.get("dataType")) {
+    case "json":
+      const props = (await response.json()).props;
+      if (props?.redirect)
+        navigate(props.redirect);
+      return props;
+    case "blob":
+      return await response.blob();
+    case "file":
+      const blob = await response.blob();
+      const { name, lastModified } = JSON.parse(response.headers.get("fileData") || "");
+      return new File([blob], name, {
+        type: blob.type,
+        lastModified
+      });
+  }
+}
+function GetSessionFromResponse(response) {
+  return JSON.parse(decodeURI(response.headers.get("session") || ""));
+}
+globalThis.MakeServerActionRequest ??= MakeServerActionRequest;
 export { require_react, require_react_dom, getRouteMatcher, generateRandomString, normalize, RequestContext, require_jsx_dev_runtime, match, useLoadingEffect, useReloadEffect, ReloadContext, RouterHost, SessionProvider, NextJsLayoutStacker };

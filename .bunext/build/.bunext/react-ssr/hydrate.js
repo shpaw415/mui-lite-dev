@@ -12,7 +12,7 @@ import {
   require_react,
   require_react_dom,
   useReloadEffect
-} from "./../../chunk-q2ev17za.js";
+} from "./../../chunk-br1rcmt7.js";
 import {
   __commonJS,
   __require,

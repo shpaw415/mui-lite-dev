@@ -7,22 +7,27 @@
     "@types/bun": "latest",
     "tailwindcss": "^3.4.17"
   },
-  "peerDependencies": { "typescript": "^5.7.3" },
-  "dependencies": {
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "@bunpmjs/bunext": "0.9.7",
-    "@material-design-icons/svg": "0.14.13",
-    "clsx": "2.1.1",
-    "css-color-converter": "2.0.0"
-  },
-  "scripts": {
-    "bunext": "bunext",
-    "build": "bun build.ts",
-    "dev": "bunext dev",
-    "db:create": "bunext database:create",
-    "start": "bunext production",
-    "tw": "bunx tailwindcss -i ./static/tailwind-input.css -o ./static/tailwind.css --watch"
-  },
-  "todo": { "color-contrast": "1.0.0" }
+  "peerDependencies": {
+  "typescript": "^5.7.3"
+},
+"dependencies": {
+  "react": "19.0.0",
+  "react-dom": "19.0.0",
+  "@bunpmjs/bunext": "github:shpaw415/bunext#982a729",
+  "@material-design-icons/svg": "0.14.13",
+  "clsx": "2.1.1",
+  "css-color-converter": "2.0.0"
+},
+"scripts": {
+  "bunext": "bunext",
+  "build": "bun build.ts",
+  "dev": "bunext dev",
+  "db:create": "bunext database:create",
+  "start": "bunext production",
+  "tw": "bunx tailwindcss -i ./static/tailwind-input.css -o ./static/tailwind.css --watch"
+},
+"todo": {
+"color-contrast": "1.0.0"
+},
+"private": true
 }
